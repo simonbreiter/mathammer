@@ -8,9 +8,27 @@
   "private": true,
   "scripts": {
     "dev": "jest --watch",
+    "commitlint": "commitlint -e $GIT_PARAMS",
     "test": "jest --coverage"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "commit-msg": "commitlint -e $GIT_PARAMS"
+    }
+  },
+  "lint-staged": {
+    "linters": {
+      "src/**/*.(js|jsx)": [
+        "prettier-standard",
+        "git add"
+      ]
+    }
+  },
   "devDependencies": {
-    "jest": "^22.4.4"
+    "husky": "^1.0.0-rc.6",
+    "jest": "^22.4.4",
+    "lint-staged": "^7.1.1",
+    "prettier-standard": "^8.0.1"
   }
 }
