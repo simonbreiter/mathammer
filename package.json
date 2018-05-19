@@ -12,8 +12,8 @@
     "build": "webpack --mode=production",
     "dev": "npm-run-all --parallel webpack:watch test:watch",
     "commitlint": "commitlint -e $GIT_PARAMS",
-    "test": "jest --coverage",
-    "test:watch": "jest --watch"
+    "test": "jest test --coverage",
+    "test:watch": "jest test --watch"
   },
   "husky": {
     "hooks": {
