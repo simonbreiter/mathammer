@@ -4,7 +4,7 @@
 * [Node](https://nodejs.org/en/)
 * [Yarn](https://yarnpkg.com/en/)
 
-## Getting started
+## Getting started
 Install dependencies:
 
 ```bash
