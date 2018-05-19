@@ -5,16 +5,19 @@
 * [Yarn](https://yarnpkg.com/en/)
 
 ## Getting started
-Install dependencies:
-
+On the first run install dependencies:
 ```bash
 yarn install
 ```
 
-Start dev env:
+To start developing:
 ```bash
 yarn dev
 ```
+This will start webpack and jest.
+
+## How to contribute
+Clone the project and work only on feature branches. If your feature is ready to be merge create a pull request.
 
 ## Coding Rules
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
