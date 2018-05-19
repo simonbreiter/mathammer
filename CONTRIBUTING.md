@@ -17,7 +17,7 @@ yarn dev
 This will start webpack and jest.
 
 ## How to contribute
-Clone the project and work only on feature branches. If your feature is ready to be merge create a pull request.
+Clone the project and work only on feature branches. Never work on master. If your feature is ready to be merge create a pull request.
 
 ## Coding Rules
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
