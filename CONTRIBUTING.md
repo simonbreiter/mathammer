@@ -23,8 +23,8 @@ Clone the project and work only on feature branches. Never work on master. If yo
 To ensure consistency throughout the source code, keep these rules in mind as you are working:
 
 * All features or bug fixes must be tested using [jest](https://facebook.github.io/jest/).
-* All public API methods must be documented.
-* Follows [standardjs](https://standardjs.com/) style.
+* Everything should be documented using [jsdoc](http://usejsdoc.org).
+* Follow [standardjs](https://standardjs.com/) style.
 
 ## Commit Message Guidelines
 Follow [angular](https://github.com/angular/angular/blob/master/CONTRIBUTING.md#commit) commit message guidelines.
