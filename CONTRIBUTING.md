@@ -14,7 +14,7 @@ To start developing:
 ```bash
 yarn dev
 ```
-This will start webpack and jest.
+This will start webpack, jest and makes documentation available on [localhost:4001](http://localhost:4001).
 
 ## How to contribute
 Clone the project and work only on feature branches. Never work on master. If your feature is ready to be merge create a pull request.
