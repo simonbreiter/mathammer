@@ -3,7 +3,7 @@
 [![coverage report](https://gitlab.com/simonbreiter/mathammer/badges/master/coverage.svg)](https://gitlab.com/simonbreiter/mathammer/commits/master)
 [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
-A library to help you do calculations in the 40k universe.
+A calculation library for the grim world of the 40k century.
 
 ## Legal
 Mathammer uses the [MIT](./LICENSE.md) license and is not affiliated with Games Workshop Limited. 
