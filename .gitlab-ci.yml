@@ -13,5 +13,5 @@ stages:
 test:
   stage: test
   script:
-    - yarn test
+    - yarn test:codacy-watch
 
