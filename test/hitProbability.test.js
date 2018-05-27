@@ -1,3 +1,4 @@
+/* eslint-env jest */
 import { hitProbability } from '../src/hitProbability'
 
 test('function exists', () => {
