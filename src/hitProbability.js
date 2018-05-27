@@ -7,7 +7,7 @@
  * @param {object} props.model.ballistic - model object
  * @param {number} props.model.ballistic.skill - model object
  * @param {object} [props.reroll] - reroll object
- * @param {string} [props.reroll.melee] - rerroll option for melee attacks
+ * @param {string} [props.reroll.melee] - reroll option for melee attacks
  * @param {string} [props.reroll.ballistic] - reroll option for ballistic attacks
  * @returns {object} hitProbabilityReturn
  */
