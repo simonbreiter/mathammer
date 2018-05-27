@@ -2,7 +2,7 @@
 import { hitProbability } from '../src/hitProbability'
 
 test('function exists', () => {
-  expect(hitProbability()).toBeDefined()
+  expect(hitProbability).toBeDefined()
 })
 
 test('hit probability with no reroll', () => {
