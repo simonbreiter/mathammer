@@ -1,3 +1,5 @@
+import { errorRange, errorType } from '../src/util/error'
+
 /**
  * Calculate hit probability
  * @param {object} props - property object
@@ -12,13 +14,50 @@
  * @returns {object} hitProbabilityReturn
  */
 function hitProbability (props) {
+  let meleeProbability = 0
+  let ballisticProbability = 0
+  let meleeBasic = (6 - props.model.melee.skill + 1) / 6
+  let ballisticBasic = (6 - props.model.ballistic.skill + 1) / 6
+
+  if (
+    props.model.melee.skill < 2 ||
+    props.model.melee.skill > 6 ||
+    props.model.ballistic.skill < 2 ||
+    props.model.ballistic.skill > 6
+  ) {
+    errorRange()
+  }
+
+  if (props.reroll.melee === 'reroll-none') {
+    meleeProbability = meleeBasic
+  } else if (props.reroll.melee === 'reroll-1') {
+    meleeProbability = meleeBasic + 1 / 6 * meleeBasic
+  } else {
+    meleeProbability = meleeBasic + (1 - meleeBasic) * meleeBasic
+  }
+
+  if (props.reroll.ballistic === 'reroll-none') {
+    ballisticProbability = ballisticBasic
+  } else if (props.reroll.ballistic === 'reroll-1') {
+    ballisticProbability = ballisticBasic + 1 / 6 * ballisticBasic
+  } else {
+    ballisticProbability =
+      ballisticBasic + (1 - ballisticBasic) * ballisticBasic
+  }
+
+  if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
+    errorType()
+  }
   /**
    * @namespace
    * @property {object} hitProbabilityReturn - hitProbability return object
    * @property {number} hitProbabilityReturn.melee - melee hit probability
    * @property {number} hitProbabilityReturn.ballistic - ballistic hit probability
    */
-  return {}
+  return {
+    melee: meleeProbability,
+    ballistic: ballisticProbability
+  }
 }
 
 export { hitProbability }
