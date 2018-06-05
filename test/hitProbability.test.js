@@ -11,7 +11,7 @@ const propsFactory = (meleeSkill, ballisticSkill, rerollMelee, rerollBallistic) 
         skill: ballisticSkill
       }
     },
-    reroll: {
+    hitReroll: {
       melee: rerollMelee || 'reroll-none',
       ballistic: rerollBallistic || 'reroll-none'
     }
@@ -64,7 +64,7 @@ test('hit probability with melee reroll-all + ball reroll-1', () => {
 test('Error < 2', () => {
   const props = propsFactory(1, 3)
 
-  expect(() => { 
+  expect(() => {
     hitProbability(props)
   }).toThrow(RangeError)
 })
@@ -82,7 +82,7 @@ test('value Error', () => {
 
   expect(() => {
     hitProbability(props)
-  }).toThrowError(TypeError) 
+  }).toThrowError(TypeError)
 })
 
 test('Error > 6 String', () => {

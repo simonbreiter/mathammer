@@ -1,4 +1,4 @@
-import { errorRange, errorType } from '../src/util/error'
+import { errorRange, errorHitType } from '../src/util/error'
 
 /**
  * Calculate hit probability
@@ -28,17 +28,17 @@ function hitProbability (props) {
     errorRange()
   }
 
-  if (props.reroll.melee === 'reroll-none') {
+  if (props.hitReroll.melee === 'reroll-none') {
     meleeProbability = meleeBasic
-  } else if (props.reroll.melee === 'reroll-1') {
+  } else if (props.hitReroll.melee === 'reroll-1') {
     meleeProbability = meleeBasic + 1 / 6 * meleeBasic
   } else {
     meleeProbability = meleeBasic + (1 - meleeBasic) * meleeBasic
   }
 
-  if (props.reroll.ballistic === 'reroll-none') {
+  if (props.hitReroll.ballistic === 'reroll-none') {
     ballisticProbability = ballisticBasic
-  } else if (props.reroll.ballistic === 'reroll-1') {
+  } else if (props.hitReroll.ballistic === 'reroll-1') {
     ballisticProbability = ballisticBasic + 1 / 6 * ballisticBasic
   } else {
     ballisticProbability =
@@ -46,7 +46,7 @@ function hitProbability (props) {
   }
 
   if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
-    errorType()
+    errorHitType()
   }
   /**
    * @namespace
