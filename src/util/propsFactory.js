@@ -1,4 +1,5 @@
 import { hitProbability as hitProb } from '../hitProbability'
+import { woundProbability as woundProb } from '../woundProbability'
 
 const propsFactory = config => {
   const model = {
@@ -39,8 +40,13 @@ const propsFactory = config => {
   const hitProbability = {
     hitProbability: hitProb(Object.assign({}, model, hitReroll))
   }
+  const woundProbability = {
+    woundProbability: woundProb(
+      Object.assign({}, model, enemy, woundReroll, hitProbability)
+    )
+  }
 
-  return Object.assign({}, model, enemy, woundReroll, hitProbability)
+  return Object.assign({}, model, enemy, hitProbability, woundProbability)
 }
 
 export { propsFactory }
