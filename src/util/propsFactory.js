@@ -13,7 +13,7 @@ const propsFactory = config => {
       ballistic: {
         skill: config.ballisticSkill,
         strength: config.ballisticStrength,
-        attackPower: config.ballisticAP,
+        attackPower: config.ballisticAP || 0,
         damage: config.ballisticDamage
       }
     }
