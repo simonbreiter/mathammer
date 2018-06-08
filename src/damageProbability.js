@@ -25,13 +25,6 @@ import {
  * @returns {object} averageDamage
  */
 function damageProbability (props) {
-  /**
-   * @namespace
-   * @property {object} averageDamage - averageDamage return object
-   * @property {number} averageDamage.melee - average melee damage
-   * @property {number} averageDamage.ballistic - average ballistic damage
-   */
-
   let meleeAP = props.model.melee.attackPower
   let ballisticAP = props.model.ballistic.attackPower
   let damageMelee = props.model.melee.damage
@@ -93,7 +86,12 @@ function damageProbability (props) {
     props.woundProbability.melee * saveMelee * damageMelee
   let averageDamageBallistic =
     props.woundProbability.ballistic * saveBallistic * damageBallistic
-
+  /**
+   * @namespace
+   * @property {object} averageDamage - averageDamage return object
+   * @property {number} averageDamage.melee - average melee damage
+   * @property {number} averageDamage.ballistic - average ballistic damage
+   */
   return {
     melee: averageDamageMelee,
     ballistic: averageDamageBallistic
