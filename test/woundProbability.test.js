@@ -1,43 +1,7 @@
 /* eslint-env jest */
 import { woundProbability } from '../src/woundProbability'
-import { hitProbability as hitProb } from '../src/hitProbability'
+import { propsFactory } from '../src/util/propsFactory'
 
-const propsFactory = (config) => {
-  const model = {
-    model: {
-      melee: {
-        skill: config.meleeSkill,
-        strength: config.meleeStrength
-      },
-      ballistic: {
-        skill: config.ballisticSkill,
-        strength: config.ballisticStrength
-      }
-    }
-  }
-  const enemy = {
-    enemy: {
-      toughness: config.enemyToughness
-    }
-  }
-  const woundReroll = {
-    woundReroll: {
-      melee: config.woundRerollMelee || 'reroll-none',
-      ballistic: config.woundRerollBallistic || 'reroll-none'
-    }
-  }
-  const hitReroll = {
-    hitReroll: {
-      melee: config.hitRerollMelee || 'reroll-none',
-      ballistic: config.hitRerollBallistic || 'reroll-none'
-    }
-  }
-  const hitProbability = {
-    hitProbability: hitProb(Object.assign({}, model, hitReroll))
-  }
-
-  return Object.assign({}, model, enemy, woundReroll, hitProbability)
-}
 const expectedFactory = (expectMelee, expectBallistic) => {
   return {
     melee: expectMelee,
@@ -56,10 +20,8 @@ test('wound probability double toughness', () => {
     ballisticSkill: 3,
     ballisticStrength: 8,
     enemyToughness: 4,
-    woundRerollMelee: 'reroll-none',
-    woundRerollBallistic: 'reroll-none',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.55555, 0.55555)
@@ -75,10 +37,8 @@ test('wound probability higher than toughness', () => {
     ballisticSkill: 3,
     ballisticStrength: 5,
     enemyToughness: 4,
-    woundRerollMelee: 'reroll-none',
-    woundRerollBallistic: 'reroll-none',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.44444, 0.44444)
@@ -94,10 +54,8 @@ test('wound probability with no reroll', () => {
     ballisticSkill: 5,
     ballisticStrength: 4,
     enemyToughness: 4,
-    woundRerollMelee: 'reroll-none',
-    woundRerollBallistic: 'reroll-none',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.33333, 0.1666)
@@ -113,10 +71,8 @@ test('wound probability smaller than toughness', () => {
     ballisticSkill: 3,
     ballisticStrength: 3,
     enemyToughness: 4,
-    woundRerollMelee: 'reroll-none',
-    woundRerollBallistic: 'reroll-none',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.22222, 0.22222)
@@ -132,10 +88,8 @@ test('wound probability half toughness', () => {
     ballisticSkill: 3,
     ballisticStrength: 2,
     enemyToughness: 4,
-    woundRerollMelee: 'reroll-none',
-    woundRerollBallistic: 'reroll-none',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.11111, 0.11111)
@@ -153,8 +107,8 @@ test('wound probability with reroll-1', () => {
     enemyToughness: 4,
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-1',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.3888, 0.3888)
@@ -172,8 +126,8 @@ test('wound probability with reroll-1 and reroll-all', () => {
     enemyToughness: 4,
     woundRerollMelee: 'reroll-all',
     woundRerollBallistic: 'reroll-all',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.4995, 0.4995)
@@ -191,8 +145,8 @@ test('wound probability with reroll-1 and reroll-all', () => {
     enemyToughness: 4,
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
-    hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.3888, 0.4995)
@@ -211,7 +165,9 @@ test('wound probability with reroll-1 and reroll-all and hit reroll-1 ', () => {
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
     hitRerollMelee: 'reroll-1',
-    hitRerollBallistic: 'reroll-1'
+    hitRerollBallistic: 'reroll-1',
+    hitProbabilityMelee: 0.7777,
+    hitProbabilityBallistic: 0.7777
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.4537, 0.58333)
@@ -230,7 +186,9 @@ test('wound probability with reroll-1 and reroll-all and hit reroll-all ', () =>
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
     hitRerollMelee: 'reroll-all',
-    hitRerollBallistic: 'reroll-all'
+    hitRerollBallistic: 'reroll-all',
+    hitProbabilityMelee: 0.8888,
+    hitProbabilityBallistic: 0.8888
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.51852, 0.66667)
