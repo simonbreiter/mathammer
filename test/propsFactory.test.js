@@ -1,6 +1,4 @@
 /* eslint-env jest */
-import { hitProbability as hitProb } from '../src/hitProbability'
-import { woundProbability as woundProb } from '../src/woundProbability'
 import { propsFactory } from '../src/util/propsFactory'
 
 test('factory test', () => {
@@ -19,7 +17,11 @@ test('factory test', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.3333,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.1666
   }
   const model = {
     model: {
@@ -57,12 +59,18 @@ test('factory test', () => {
     }
   }
   const hitProbability = {
-    hitProbability: hitProb(Object.assign({}, model, hitReroll))
+    hitProbability: {
+      melee: 0.6666,
+      ballistic: 0.3333
+    }
   }
   const woundProbability = {
-    woundProbability: woundProb(Object.assign({}, model, enemy, woundReroll, hitProbability))
+    woundProbability: {
+      melee: 0.3333,
+      ballistic: 0.1666
+    }
   }
-  const expected = Object.assign({}, model, enemy, hitProbability, woundProbability)
+  const expected = Object.assign({}, model, enemy, woundReroll, hitReroll, hitProbability, woundProbability)
 
   expect(propsFactory(config)).toEqual(expected)
 })

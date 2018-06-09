@@ -1,22 +1,6 @@
 /* eslint-env jest */
 import { hitProbability } from '../src/hitProbability'
-
-const propsFactory = (meleeSkill, ballisticSkill, rerollMelee, rerollBallistic) => {
-  return {
-    model: {
-      melee: {
-        skill: meleeSkill
-      },
-      ballistic: {
-        skill: ballisticSkill
-      }
-    },
-    hitReroll: {
-      melee: rerollMelee || 'reroll-none',
-      ballistic: rerollBallistic || 'reroll-none'
-    }
-  }
-}
+import { propsFactory } from '../src/util/propsFactory'
 
 const expectedFactory = (expectMelee, expectBallistic) => {
   return {
@@ -30,7 +14,11 @@ test('function exists', () => {
 })
 
 test('hit probability with no reroll', () => {
-  const props = propsFactory(3, 3)
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 3
+  }
+  const props = propsFactory(config)
   const expected = expectedFactory(0.667, 0.667)
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee)
@@ -38,7 +26,12 @@ test('hit probability with no reroll', () => {
 })
 
 test('hit probability with melee reroll-1', () => {
-  const props = propsFactory(3, 3, 'reroll-1')
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 3,
+    hitRerollMelee: 'reroll-1'
+  }
+  const props = propsFactory(config)
   const expected = expectedFactory(0.77777, 0.667)
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee)
@@ -46,7 +39,12 @@ test('hit probability with melee reroll-1', () => {
 })
 
 test('hit probability with ballistic reroll-1', () => {
-  const props = propsFactory(3, 3, 'reroll-none', 'reroll-1')
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 3,
+    hitRerollBallistic: 'reroll-1'
+  }
+  const props = propsFactory(config)
   const expected = expectedFactory(0.667, 0.77777)
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee)
@@ -54,7 +52,13 @@ test('hit probability with ballistic reroll-1', () => {
 })
 
 test('hit probability with melee reroll-all + ball reroll-1', () => {
-  const props = propsFactory(3, 3, 'reroll-all', 'reroll-1')
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 3,
+    hitRerollMelee: 'reroll-all',
+    hitRerollBallistic: 'reroll-1'
+  }
+  const props = propsFactory(config)
   const expected = expectedFactory(0.8888888, 0.77777)
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee)
@@ -62,7 +66,11 @@ test('hit probability with melee reroll-all + ball reroll-1', () => {
 })
 
 test('Error < 2', () => {
-  const props = propsFactory(1, 3)
+  const config = {
+    meleeSkill: 1,
+    ballisticSkill: 3
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)
@@ -70,7 +78,11 @@ test('Error < 2', () => {
 })
 
 test('Error > 6', () => {
-  const props = propsFactory(3, 7)
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 7
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)
@@ -78,7 +90,11 @@ test('Error > 6', () => {
 })
 
 test('value Error', () => {
-  const props = propsFactory('Senf', 4)
+  const config = {
+    meleeSkill: 'Senf',
+    ballisticSkill: 3
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)
@@ -86,7 +102,11 @@ test('value Error', () => {
 })
 
 test('Error > 6 String', () => {
-  const props = propsFactory(3, '7')
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: '7'
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)
@@ -94,15 +114,23 @@ test('Error > 6 String', () => {
 })
 
 test('Error > 6', () => {
-  const props = propsFactory(3, -7)
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: -7
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)
   }).toThrowError(RangeError)
 })
 
-test('Error > 6', () => {
-  const props = propsFactory(3, 0)
+test('Error = 0', () => {
+  const config = {
+    meleeSkill: 3,
+    ballisticSkill: 0
+  }
+  const props = propsFactory(config)
 
   expect(() => {
     hitProbability(props)

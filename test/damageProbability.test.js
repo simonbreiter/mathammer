@@ -29,7 +29,11 @@ test('Damage No AP Dmg 1,2', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.11111, 0.22222)
@@ -54,7 +58,11 @@ test('Damage 1,2 AP Dmg 1, Save 3', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.16667, 0.22222)
@@ -79,7 +87,11 @@ test('Damage -1,-2 AP Dmg 1, Save 3', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.16667, 0.22222)
@@ -104,7 +116,11 @@ test('Damage 3,4 AP Dmg 1, Save 3', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.27777, 0.33333)
@@ -129,7 +145,11 @@ test('Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.16667, 0.16667)
@@ -154,7 +174,11 @@ test('Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4nwound reroll-1 and reroll-
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
     hitRerollMelee: 'reroll-1',
-    hitRerollBallistic: 'reroll-1'
+    hitRerollBallistic: 'reroll-1',
+    hitProbabilityMelee: 0.7777,
+    hitProbabilityBallistic: 0.7777,
+    woundProbabilityMelee: 0.4537,
+    woundProbabilityBallistic: 0.58333
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.22685, 0.29166)
@@ -179,7 +203,11 @@ test('Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4 wound reroll-1 and reroll-
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
     hitRerollMelee: 'reroll-all',
-    hitRerollBallistic: 'reroll-all'
+    hitRerollBallistic: 'reroll-all',
+    hitProbabilityMelee: 0.8888,
+    hitProbabilityBallistic: 0.8888,
+    woundProbabilityMelee: 0.51852,
+    woundProbabilityBallistic: 0.66667
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.25926, 0.33333)
@@ -204,7 +232,11 @@ test('wound reroll-1 and reroll-all', () => {
     woundRerollMelee: 'reroll-1',
     woundRerollBallistic: 'reroll-all',
     hitRerollMelee: 'reroll-none',
-    hitRerollBallistic: 'reroll-none'
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3888,
+    woundProbabilityBallistic: 0.4995
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.19444, 0.24975)
@@ -229,7 +261,11 @@ test('hit reroll-1 and reroll-all', () => {
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-1',
-    hitRerollBallistic: 'reroll-all'
+    hitRerollBallistic: 'reroll-all',
+    hitProbabilityMelee: 0.7777,
+    hitProbabilityBallistic: 0.8888,
+    woundProbabilityMelee: 0.3888,
+    woundProbabilityBallistic: 0.4444
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.19444, 0.2222)

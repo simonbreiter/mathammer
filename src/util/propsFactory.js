@@ -1,52 +1,81 @@
-import { hitProbability as hitProb } from '../hitProbability'
-import { woundProbability as woundProb } from '../woundProbability'
-
-const propsFactory = config => {
+const propsFactory = ({
+  meleeSkill = 3,
+  meleeStrength = 4,
+  meleeAP = 0,
+  meleeDamage = 1,
+  ballisticSkill = 3,
+  ballisticStrength = 4,
+  ballisticAP = 0,
+  ballisticDamage = 1,
+  enemyToughness = 4,
+  enemySave = 3,
+  enemyInvulnerableSave = 0,
+  woundRerollMelee = 'reroll-none',
+  woundRerollBallistic = 'reroll-none',
+  hitRerollMelee = 'reroll-none',
+  hitRerollBallistic = 'reroll-none',
+  hitProbabilityMelee = 1,
+  hitProbabilityBallistic = 1,
+  woundProbabilityMelee = 1,
+  woundProbabilityBallistic = 1
+}) => {
   const model = {
     model: {
       melee: {
-        skill: config.meleeSkill,
-        strength: config.meleeStrength,
-        attackPower: config.meleeAP,
-        damage: config.meleeDamage
+        skill: meleeSkill,
+        strength: meleeStrength,
+        attackPower: meleeAP,
+        damage: meleeDamage
       },
       ballistic: {
-        skill: config.ballisticSkill,
-        strength: config.ballisticStrength,
-        attackPower: config.ballisticAP || 0,
-        damage: config.ballisticDamage
+        skill: ballisticSkill,
+        strength: ballisticStrength,
+        attackPower: ballisticAP,
+        damage: ballisticDamage
       }
     }
   }
   const enemy = {
     enemy: {
-      toughness: config.enemyToughness,
-      save: config.enemySave,
-      invulnerableSave: config.enemyInvulnerableSave
+      toughness: enemyToughness,
+      save: enemySave,
+      invulnerableSave: enemyInvulnerableSave
     }
   }
   const woundReroll = {
     woundReroll: {
-      melee: config.woundRerollMelee || 'reroll-none',
-      ballistic: config.woundRerollBallistic || 'reroll-none'
+      melee: woundRerollMelee,
+      ballistic: woundRerollBallistic
     }
   }
   const hitReroll = {
     hitReroll: {
-      melee: config.hitRerollMelee || 'reroll-none',
-      ballistic: config.hitRerollBallistic || 'reroll-none'
+      melee: hitRerollMelee,
+      ballistic: hitRerollBallistic
     }
   }
   const hitProbability = {
-    hitProbability: hitProb(Object.assign({}, model, hitReroll))
+    hitProbability: {
+      melee: hitProbabilityMelee,
+      ballistic: hitProbabilityBallistic
+    }
   }
   const woundProbability = {
-    woundProbability: woundProb(
-      Object.assign({}, model, enemy, woundReroll, hitProbability)
-    )
+    woundProbability: {
+      melee: woundProbabilityMelee,
+      ballistic: woundProbabilityBallistic
+    }
   }
 
-  return Object.assign({}, model, enemy, hitProbability, woundProbability)
+  return Object.assign(
+    {},
+    model,
+    enemy,
+    woundReroll,
+    hitReroll,
+    hitProbability,
+    woundProbability
+  )
 }
 
 export { propsFactory }
