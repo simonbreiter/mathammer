@@ -10,10 +10,15 @@ const propsFactory = ({
   enemyToughness = 4,
   enemySave = 3,
   enemyInvulnerableSave = 0,
+  enemySaveModifier = 0,
   woundRerollMelee = 'reroll-none',
   woundRerollBallistic = 'reroll-none',
   hitRerollMelee = 'reroll-none',
   hitRerollBallistic = 'reroll-none',
+  meleeHitModifier = 0,
+  ballisticHitModifier = 0,
+  meleeWoundModifier = 0,
+  ballisticWoundModifier = 0,
   hitProbabilityMelee = 1,
   hitProbabilityBallistic = 1,
   woundProbabilityMelee = 1,
@@ -39,7 +44,8 @@ const propsFactory = ({
     enemy: {
       toughness: enemyToughness,
       save: enemySave,
-      invulnerableSave: enemyInvulnerableSave
+      invulnerableSave: enemyInvulnerableSave,
+      saveModifier: enemySaveModifier
     }
   }
   const woundReroll = {
@@ -52,6 +58,18 @@ const propsFactory = ({
     hitReroll: {
       melee: hitRerollMelee,
       ballistic: hitRerollBallistic
+    }
+  }
+  const hitModifier = {
+    hitModifier: {
+      melee: meleeHitModifier,
+      ballistic: ballisticHitModifier
+    }
+  }
+  const woundModifier = {
+    woundModifier: {
+      melee: meleeWoundModifier,
+      ballistic: ballisticWoundModifier
     }
   }
   const hitProbability = {
@@ -73,6 +91,8 @@ const propsFactory = ({
     enemy,
     woundReroll,
     hitReroll,
+    hitModifier,
+    woundModifier,
     hitProbability,
     woundProbability
   )

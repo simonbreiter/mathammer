@@ -14,10 +14,15 @@ test('factory test', () => {
     enemyToughness: 4,
     enemySave: 3,
     enemyInvulnerableSave: 6,
+    enemySaveModifier: 1,
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
     hitRerollBallistic: 'reroll-none',
+    meleeHitModifier: -1,
+    ballisticHitModifier: 1,
+    meleeWoundModifier: 1,
+    ballisticWoundModifier: 1,
     hitProbabilityMelee: 0.6666,
     hitProbabilityBallistic: 0.3333,
     woundProbabilityMelee: 0.3333,
@@ -43,7 +48,8 @@ test('factory test', () => {
     enemy: {
       toughness: 4,
       save: 3,
-      invulnerableSave: 6
+      invulnerableSave: 6,
+      saveModifier: 1
     }
   }
   const woundReroll = {
@@ -58,6 +64,18 @@ test('factory test', () => {
       ballistic: 'reroll-none'
     }
   }
+  const hitModifier = {
+    hitModifier: {
+      melee: -1,
+      ballistic: 1
+    }
+  }
+  const woundModifier = {
+    woundModifier: {
+      melee: 1,
+      ballistic: 1
+    }
+  }
   const hitProbability = {
     hitProbability: {
       melee: 0.6666,
@@ -70,7 +88,7 @@ test('factory test', () => {
       ballistic: 0.1666
     }
   }
-  const expected = Object.assign({}, model, enemy, woundReroll, hitReroll, hitProbability, woundProbability)
+  const expected = Object.assign({}, model, enemy, woundReroll, hitReroll, hitModifier, woundModifier, hitProbability, woundProbability)
 
   expect(propsFactory(config)).toEqual(expected)
 })
