@@ -23,24 +23,18 @@ import {
  * @returns {object} woundProbabilityReturn
  */
 function woundProbability (props) {
-  let meleeMultiplierHalf = 1 / 6
-  let meleeMultiplierSmaller = 1 / 3
-  let meleeMultiplierEqual = 1 / 2
-  let meleeMultiplierHigher = 2 / 3
-  let meleeMultiplierDouble = 5 / 6
-  let ballisticMultiplierHalf = 1 / 6
-  let ballisticMultiplierSmaller = 1 / 3
-  let ballisticMultiplierEqual = 1 / 2
-  let ballisticMultiplierHigher = 2 / 3
-  let ballisticMultiplierDouble = 5 / 6
-
   let meleeWoundProbability = 0
   let ballisticWoundProbability = 0
+  let meleeWound = 0
+  let ballisticWound = 0
   let meleeStrength = props.model.melee.strength
   let ballisticStrength = props.model.ballistic.strength
   let enemyToughness = props.enemy.toughness
   let hitProbMelee = props.hitProbability.melee
   let hitProbBallistic = props.hitProbability.ballistic
+
+  let meleeDice = 0
+  let ballisticDice = 0
 
   let meleeStrengthTyp = meleeStrength * 1
   let ballisticStrengthTyp = ballisticStrength * 1
@@ -59,69 +53,100 @@ function woundProbability (props) {
     errorToughness()
   }
 
-  if (props.woundReroll.melee === 'reroll-1') {
-    meleeMultiplierHalf = 7 / 36
-    meleeMultiplierSmaller = 7 / 18
-    meleeMultiplierEqual = 7 / 12
-    meleeMultiplierHigher = 7 / 9
-    meleeMultiplierDouble = 35 / 36
-  } else if (props.woundReroll.melee === 'reroll-all') {
-    meleeMultiplierHalf = 11 / 36
-    meleeMultiplierSmaller = 5 / 9
-    meleeMultiplierEqual = 3 / 4
-    meleeMultiplierHigher = 8 / 9
-    meleeMultiplierDouble = 35 / 36
-  }
-
-  if (props.woundReroll.ballistic === 'reroll-1') {
-    ballisticMultiplierHalf = 7 / 36
-    ballisticMultiplierSmaller = 7 / 18
-    ballisticMultiplierEqual = 7 / 12
-    ballisticMultiplierHigher = 7 / 9
-    ballisticMultiplierDouble = 35 / 36
-  } else if (props.woundReroll.ballistic === 'reroll-all') {
-    ballisticMultiplierHalf = 11 / 36
-    ballisticMultiplierSmaller = 5 / 9
-    ballisticMultiplierEqual = 3 / 4
-    ballisticMultiplierHigher = 8 / 9
-    ballisticMultiplierDouble = 35 / 36
-  }
-
   if (meleeStrength >= 2 * enemyToughness) {
-    meleeWoundProbability = hitProbMelee * meleeMultiplierDouble
+    meleeDice = 2
   } else if (
     meleeStrength > enemyToughness &&
     meleeStrength < 2 * enemyToughness
   ) {
-    meleeWoundProbability = hitProbMelee * meleeMultiplierHigher
+    meleeDice = 3
   } else if (meleeStrength === enemyToughness) {
-    meleeWoundProbability = hitProbMelee * meleeMultiplierEqual
+    meleeDice = 4
   } else if (
     meleeStrength < enemyToughness &&
     meleeStrength > enemyToughness / 2
   ) {
-    meleeWoundProbability = hitProbMelee * meleeMultiplierSmaller
+    meleeDice = 5
   } else {
-    meleeWoundProbability = hitProbMelee * meleeMultiplierHalf
+    meleeDice = 6
+  }
+  let meleeModification = meleeDice - props.woundModifier.melee
+  if (meleeModification < 2) {
+    meleeModification = 2
+  }
+  let meleeBasic = (6 - meleeDice + 1) / 6
+  let meleeModifiedBasic = (6 - meleeModification + 1) / 6
+  let meleeBasicFront = 0
+  let meleeBasicBack = 0
+
+  if (props.woundModifier.melee >= 0) {
+    meleeBasicFront = meleeBasic
+    meleeBasicBack = meleeModifiedBasic
+  } else {
+    meleeBasicFront = meleeModifiedBasic
+    meleeBasicBack = meleeModifiedBasic
+  }
+
+  if (props.woundReroll.melee === 'reroll-none') {
+    meleeWound = meleeModifiedBasic
+  } else if (props.woundReroll.melee === 'reroll-1') {
+    meleeWound = meleeBasicFront + 1 / 6 * meleeBasicBack
+  } else {
+    meleeWound = meleeBasicFront + (1 - meleeBasic) * meleeBasicBack
   }
 
   if (ballisticStrength >= 2 * enemyToughness) {
-    ballisticWoundProbability = hitProbBallistic * ballisticMultiplierDouble
+    ballisticDice = 2
   } else if (
     ballisticStrength > enemyToughness &&
     ballisticStrength < 2 * enemyToughness
   ) {
-    ballisticWoundProbability = hitProbBallistic * ballisticMultiplierHigher
+    ballisticDice = 3
   } else if (ballisticStrength === enemyToughness) {
-    ballisticWoundProbability = hitProbBallistic * ballisticMultiplierEqual
+    ballisticDice = 4
   } else if (
     ballisticStrength < enemyToughness &&
     ballisticStrength > enemyToughness / 2
   ) {
-    ballisticWoundProbability = hitProbBallistic * ballisticMultiplierSmaller
+    ballisticDice = 5
   } else {
-    ballisticWoundProbability = hitProbBallistic * ballisticMultiplierHalf
+    ballisticDice = 6
   }
+  let ballisticModification = ballisticDice - props.woundModifier.ballistic
+  if (ballisticModification < 2) {
+    ballisticModification = 2
+  }
+  let ballisticBasic = (6 - ballisticDice + 1) / 6
+  let ballisticModifiedBasic = (6 - ballisticModification + 1) / 6
+  let ballisticBasicFront = 0
+  let ballisticBasicBack = 0
+
+  if (props.woundModifier.ballistic >= 0) {
+    ballisticBasicFront = ballisticBasic
+    ballisticBasicBack = ballisticModifiedBasic
+  } else {
+    ballisticBasicFront = ballisticModifiedBasic
+    ballisticBasicBack = ballisticModifiedBasic
+  }
+  if (props.woundReroll.ballistic === 'reroll-none') {
+    ballisticWound = ballisticModifiedBasic
+  } else if (props.woundReroll.ballistic === 'reroll-1') {
+    ballisticWound = ballisticBasicFront + 1 / 6 * ballisticBasicBack
+  } else {
+    ballisticWound =
+      ballisticBasicFront + (1 - ballisticBasic) * ballisticBasicBack
+  }
+
+  meleeWoundProbability = hitProbMelee * meleeWound
+  ballisticWoundProbability = hitProbBallistic * ballisticWound
+
+  if (meleeWoundProbability < 0) {
+    meleeWoundProbability = 0
+  }
+  if (ballisticWoundProbability < 0) {
+    ballisticWoundProbability = 0
+  }
+
   /**
    * @namespace
    * @property {object} woundProbabilityReturn - woundProbability return object

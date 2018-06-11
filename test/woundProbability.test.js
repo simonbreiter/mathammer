@@ -117,7 +117,7 @@ test('wound probability with reroll-1', () => {
   expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
 })
 
-test('wound probability with reroll-1 and reroll-all', () => {
+test('wound probability with and reroll-all', () => {
   const config = {
     meleeSkill: 3,
     meleeStrength: 4,
@@ -192,6 +192,170 @@ test('wound probability with reroll-1 and reroll-all and hit reroll-all ', () =>
   }
   const props = propsFactory(config)
   const expected = expectedFactory(0.51852, 0.66667)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier +1,-1 equal toughness', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    enemyToughness: 4,
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.2222, 0.4444)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier <2, >6 ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 2,
+    ballisticSkill: 3,
+    ballisticStrength: 8,
+    enemyToughness: 4,
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0, 0.5555)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier +1,-1 equal toughness reroll-1 ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-1',
+    woundRerollBallistic: 'reroll-1',
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.2592, 0.4074)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier +1,-1 equal toughness reroll-all ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-all',
+    woundRerollBallistic: 'reroll-all',
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.3333, 0.55555)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier +4,-4 equal toughness reroll-all ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-all',
+    woundRerollBallistic: 'reroll-all',
+    meleeWoundModifier: -4,
+    ballisticWoundModifier: 4,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0, 0.6111)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier +4,-4 equal toughness reroll-1 ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-1',
+    woundRerollBallistic: 'reroll-1',
+    meleeWoundModifier: -4,
+    ballisticWoundModifier: 4,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0, 0.42592)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier <2 >6 reroll-1 ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 2,
+    ballisticSkill: 3,
+    ballisticStrength: 8,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-1',
+    woundRerollBallistic: 'reroll-1',
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0, 0.64814)
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('wound modifier <2 >6 reroll-1 ', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 2,
+    ballisticSkill: 3,
+    ballisticStrength: 8,
+    enemyToughness: 4,
+    woundRerollMelee: 'reroll-all',
+    woundRerollBallistic: 'reroll-all',
+    meleeWoundModifier: -1,
+    ballisticWoundModifier: 1,
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0, 0.64814)
 
   expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
   expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
