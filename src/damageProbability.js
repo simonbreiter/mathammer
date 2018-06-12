@@ -31,6 +31,7 @@ function damageProbability (props) {
   let damageBallistic = props.model.ballistic.damage
   let enemySave = props.enemy.save
   let enemyInvSave = props.enemy.invulnerableSave
+  let enemySaveModifier = props.enemy.saveModifier
   let saveMelee = 0
   let saveBallistic = 0
 
@@ -66,25 +67,39 @@ function damageProbability (props) {
     ballisticAP = ballisticAP * -1
   }
 
-  if (enemySave + meleeAP < enemyInvSave || enemyInvSave === 0) {
-    saveMelee = 1 - (6 - (enemySave + meleeAP) + 1) / 6
-  } else if (enemySave + meleeAP > 6 && enemyInvSave === 0) {
+  if (
+    enemySave + meleeAP - enemySaveModifier > enemyInvSave &&
+    enemyInvSave === 0 &&
+    enemySave + meleeAP - enemySaveModifier > 6
+  ) {
     saveMelee = 1
+  } else if (
+    enemySave + meleeAP - enemySaveModifier <= enemyInvSave ||
+    enemyInvSave === 0
+  ) {
+    saveMelee = 1 - (6 - (enemySave + meleeAP - enemySaveModifier) + 1) / 6
   } else {
     saveMelee = 1 - (6 - enemyInvSave + 1) / 6
   }
-
-  if (enemySave + ballisticAP < enemyInvSave || enemyInvSave === 0) {
-    saveBallistic = 1 - (6 - (enemySave + ballisticAP) + 1) / 6
-  } else if (enemySave + ballisticAP > 6 && enemyInvSave === 0) {
+  if (
+    enemySave + ballisticAP - enemySaveModifier > enemyInvSave &&
+    enemyInvSave === 0 &&
+    enemySave + ballisticAP - enemySaveModifier > 6
+  ) {
     saveBallistic = 1
+  } else if (
+    enemySave + ballisticAP - enemySaveModifier < enemyInvSave ||
+    enemyInvSave === 0
+  ) {
+    saveBallistic =
+      1 - (6 - (enemySave + ballisticAP - enemySaveModifier) + 1) / 6
   } else {
     saveBallistic = 1 - (6 - enemyInvSave + 1) / 6
   }
 
-  let averageDamageMelee =
+  const averageDamageMelee =
     props.woundProbability.melee * saveMelee * damageMelee
-  let averageDamageBallistic =
+  const averageDamageBallistic =
     props.woundProbability.ballistic * saveBallistic * damageBallistic
   /**
    * @namespace
