@@ -573,3 +573,182 @@ test('Error Range Save', () => {
     damageProbability(props)
   }).toThrow(RangeError)
 })
+
+test('#1Damage -1 AP Dmg 1, Save 6', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 0,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: -1,
+    ballisticDamage: 1,
+    enemyToughness: 4,
+    enemySave: 6,
+    enemyInvulnerableSave: 0,
+    enemySaveModifier: -1,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.3333, 0.3333)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('#2Damage Save Modifier 2 Inv Modifier 2, Dmg 1,2', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 0,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: 0,
+    ballisticDamage: 2,
+    enemyToughness: 4,
+    enemySave: 3,
+    enemyInvulnerableSave: 6,
+    enemySaveModifier: -2,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.2222, 0.4444)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('#3Damage Save Modifier +1, Dmg 1,2', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 0,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: 0,
+    ballisticDamage: 2,
+    enemyToughness: 4,
+    enemySave: 3,
+    enemyInvulnerableSave: 0,
+    enemySaveModifier: 1,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.05555, 0.1111)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('#4 Damage Save Modifier -1, Dmg 1,2', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 0,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: 0,
+    ballisticDamage: 2,
+    enemyToughness: 4,
+    enemySave: 3,
+    enemyInvulnerableSave: 0,
+    enemySaveModifier: -1,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.1666, 0.3333)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('#5 Damage Save Modifier -1, Dmg 1,2', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 0,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: 0,
+    ballisticDamage: 2,
+    enemyToughness: 4,
+    enemySave: 4,
+    enemyInvulnerableSave: 4,
+    enemySaveModifier: -1,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.1666, 0.3333)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
+
+test('#6 Damage Save Modifier -1, Dmg 1,2', () => {
+  const config = {
+    meleeSkill: 3,
+    meleeStrength: 4,
+    meleeAP: 4,
+    meleeDamage: 1,
+    ballisticSkill: 3,
+    ballisticStrength: 4,
+    ballisticAP: -4,
+    ballisticDamage: 1,
+    enemyToughness: 4,
+    enemySave: 4,
+    enemyInvulnerableSave: 0,
+    woundRerollMelee: 'reroll-none',
+    woundRerollBallistic: 'reroll-none',
+    hitRerollMelee: 'reroll-none',
+    hitRerollBallistic: 'reroll-none',
+    hitProbabilityMelee: 0.6666,
+    hitProbabilityBallistic: 0.6666,
+    woundProbabilityMelee: 0.3333,
+    woundProbabilityBallistic: 0.3333
+  }
+  const props = propsFactory(config)
+  const expected = expectedFactory(0.3333, 0.3333)
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})

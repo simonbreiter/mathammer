@@ -11,6 +11,7 @@ const propsFactory = ({
   enemySave = 3,
   enemyInvulnerableSave = 0,
   enemySaveModifier = 0,
+  enemyInvSaveModifier = 0,
   woundRerollMelee = 'reroll-none',
   woundRerollBallistic = 'reroll-none',
   hitRerollMelee = 'reroll-none',
@@ -45,7 +46,8 @@ const propsFactory = ({
       toughness: enemyToughness,
       save: enemySave,
       invulnerableSave: enemyInvulnerableSave,
-      saveModifier: enemySaveModifier
+      saveModifier: enemySaveModifier,
+      invSaveModifier: enemyInvSaveModifier
     }
   }
   const woundReroll = {

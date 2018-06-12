@@ -15,6 +15,7 @@ test('factory test', () => {
     enemySave: 3,
     enemyInvulnerableSave: 6,
     enemySaveModifier: 1,
+    enemyInvSaveModifier: 1,
     woundRerollMelee: 'reroll-none',
     woundRerollBallistic: 'reroll-none',
     hitRerollMelee: 'reroll-none',
@@ -49,7 +50,8 @@ test('factory test', () => {
       toughness: 4,
       save: 3,
       invulnerableSave: 6,
-      saveModifier: 1
+      saveModifier: 1,
+      invSaveModifier: 1
     }
   }
   const woundReroll = {
