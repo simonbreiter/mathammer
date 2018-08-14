@@ -1,7 +1,7 @@
 {
   "name": "mathammer",
-  "version": "0.0.2",
-  "main": "./src/index.js",
+  "version": "0.0.3",
+  "main": "./dist/build.js",
   "repository": "git@gitlab.com:simonbreiter/mathammer.git",
   "author": "Simon Breiter <hello@simonbreiter.com>",
   "license": "MIT",
