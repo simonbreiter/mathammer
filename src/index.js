@@ -1,5 +1,3 @@
-import hitProbability from './hitProbability'
-import woundProbability from './woundProbability'
-import damageProbability from './damageProbability'
-
-export { hitProbability, woundProbability, damageProbability }
+export { hitProbability } from './hitProbability'
+export { woundProbability } from './woundProbability'
+export { damageProbability } from './damageProbability'
