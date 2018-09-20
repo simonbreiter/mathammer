@@ -9,7 +9,6 @@ import {
 import { positive } from '../src/util/positive'
 import { save } from '../src/util/save'
 import { defineValue } from '../src/util/defineValue'
-import { notDefined } from '../src/util/notDefined'
 /**
  * Calculate damage probability
  * @param {object} props - property object
@@ -29,60 +28,71 @@ import { notDefined } from '../src/util/notDefined'
  * @returns {object} averageDamage
  */
 function damageProbability (props) {
-  const meleeAP = positive(defineValue(props.model.melee.attackPower))
-  const ballisticAP = positive(defineValue(props.model.ballistic.attackPower))
-  const damageMelee = notDefined(props.model.melee.damage)
-  const damageBallistic = notDefined(props.model.ballistic.damage)
-  const enemySave = notDefined(props.enemy.save)
-  const enemyInvSave = defineValue(props.enemy.invulnerableSave)
-  const enemySaveModifier = defineValue(props.enemy.saveModifier)
-
   if (
-    damageMelee < 1 ||
-    damageMelee > 6 ||
-    damageBallistic < 1 ||
-    damageBallistic > 6
+    (!props.model.melee.damage && !props.model.ballistic.damage) ||
+    !props.enemy.save
   ) {
-    errorDamage()
-  }
-  if (enemySave < 1 || enemySave > 6 || enemyInvSave < 0 || enemyInvSave > 6) {
-    errorSave()
-  }
-  if (meleeAP > 6 || ballisticAP > 6) {
-    errorAP()
-  }
-  if (isNaN(damageMelee * 1) || isNaN(damageBallistic * 1)) {
-    errorDamageType()
-  }
-  if (isNaN(enemySave * 1) || isNaN(enemyInvSave * 1)) {
-    errorSaveType()
-  }
-  // Typeof Test, da AP in der Formel addiert wird und es zu einem Fehler kommt
-  if (typeof meleeAP === 'string' || typeof ballisticAP === 'string') {
-    errorAPType()
-  }
+    errorValue()
+  } else {
+    const meleeAP = positive(defineValue(props.model.melee.attackPower))
+    const ballisticAP = positive(defineValue(props.model.ballistic.attackPower))
+    const damageMelee = props.model.melee.damage
+    const damageBallistic = props.model.ballistic.damage
+    const enemySave = props.enemy.save
+    const enemyInvSave = defineValue(props.enemy.invulnerableSave)
+    const enemySaveModifier = defineValue(props.enemy.saveModifier)
 
-  const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
-  const saveBallistic = save(
-    enemySave,
-    ballisticAP,
-    enemySaveModifier,
-    enemyInvSave
-  )
-  const averageDamageMelee =
-    props.woundProbability.melee * saveMelee * damageMelee
-  const averageDamageBallistic =
-    props.woundProbability.ballistic * saveBallistic * damageBallistic
-  /**
-   * @namespace
-   * @property {object} averageDamage - averageDamage return object
-   * @property {number} averageDamage.melee - average melee damage
-   * @property {number} averageDamage.ballistic - average ballistic damage
-   */
-  return {
-    melee: averageDamageMelee,
-    ballistic: averageDamageBallistic
+    if (
+      damageMelee < 1 ||
+      damageMelee > 6 ||
+      damageBallistic < 1 ||
+      damageBallistic > 6
+    ) {
+      errorDamage()
+    }
+    if (
+      enemySave < 1 ||
+      enemySave > 6 ||
+      enemyInvSave < 0 ||
+      enemyInvSave > 6
+    ) {
+      errorSave()
+    }
+    if (meleeAP > 6 || ballisticAP > 6) {
+      errorAP()
+    }
+    if (isNaN(damageMelee * 1) || isNaN(damageBallistic * 1)) {
+      errorDamageType()
+    }
+    if (isNaN(enemySave * 1) || isNaN(enemyInvSave * 1)) {
+      errorSaveType()
+    }
+    // Typeof Test, da AP in der Formel addiert wird und es zu einem Fehler kommt
+    if (typeof meleeAP === 'string' || typeof ballisticAP === 'string') {
+      errorAPType()
+    }
+
+    const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
+    const saveBallistic = save(
+      enemySave,
+      ballisticAP,
+      enemySaveModifier,
+      enemyInvSave
+    )
+    const averageDamageMelee =
+      props.woundProbability.melee * saveMelee * damageMelee
+    const averageDamageBallistic =
+      props.woundProbability.ballistic * saveBallistic * damageBallistic
+    /**
+     * @namespace
+     * @property {object} averageDamage - averageDamage return object
+     * @property {number} averageDamage.melee - average melee damage
+     * @property {number} averageDamage.ballistic - average ballistic damage
+     */
+    return {
+      melee: averageDamageMelee,
+      ballistic: averageDamageBallistic
+    }
   }
 }
-
 export { damageProbability }

@@ -304,5 +304,5 @@ test("Error = 0", () => {
 
   expect(() => {
     hitProbability(props);
-  }).toThrowError(ReferenceError);
+  }).toThrowError(RangeError);
 });

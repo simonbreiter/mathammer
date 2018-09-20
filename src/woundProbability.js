@@ -2,7 +2,8 @@ import {
   errorStrength,
   errorStrengthType,
   errorToughness,
-  errorToughnessType
+  errorToughnessType,
+  errorValue
 } from '../src/util/error'
 import { dice } from '../src/util/dice'
 import { modification } from '../src/util/modification'
@@ -11,7 +12,6 @@ import { reroll } from '../src/util/reroll'
 import { probability } from '../src/util/probabilityFunction'
 import { defineReroll } from '../src/util/defineReroll'
 import { defineValue } from '../src/util/defineValue'
-import { notDefined } from '../src/util/notDefined'
 /**
  * Calculate wound probability
  * @param {object} props - property object
@@ -31,83 +31,90 @@ import { notDefined } from '../src/util/notDefined'
  * @returns {object} woundProbabilityReturn
  */
 function woundProbability (props) {
-  const meleeStrength = notDefined(props.model.melee.strength)
-  const ballisticStrength = notDefined(props.model.ballistic.strength)
-  const enemyToughness = notDefined(props.enemy.toughness)
-  const hitProbMelee = props.hitProbability.melee
-  const hitProbBallistic = props.hitProbability.ballistic
-  const meleeStrengthType = meleeStrength * 1
-  const ballisticStrengthType = ballisticStrength * 1
-  const enemyToughnessType = enemyToughness * 1
-  const woundRerollMelee = defineReroll(props.woundReroll.melee)
-  const woundRerollBallistic = defineReroll(props.woundReroll.ballistic)
-  const woundModifierMelee = defineValue(props.woundModifier.melee)
-  const woundModifierBallistic = defineValue(props.woundModifier.ballistic)
+  if (
+    (!props.model.melee.strength && !props.model.ballistic.strength) ||
+    !props.enemy.toughness
+  ) {
+    errorValue()
+  } else {
+    const meleeStrength = props.model.melee.strength
+    const ballisticStrength = props.model.ballistic.strength
+    const enemyToughness = props.enemy.toughness
+    const hitProbMelee = props.hitProbability.melee
+    const hitProbBallistic = props.hitProbability.ballistic
+    const meleeStrengthType = meleeStrength * 1
+    const ballisticStrengthType = ballisticStrength * 1
+    const enemyToughnessType = enemyToughness * 1
+    const woundRerollMelee = defineReroll(props.woundReroll.melee)
+    const woundRerollBallistic = defineReroll(props.woundReroll.ballistic)
+    const woundModifierMelee = defineValue(props.woundModifier.melee)
+    const woundModifierBallistic = defineValue(props.woundModifier.ballistic)
 
-  if (isNaN(enemyToughnessType)) {
-    errorToughnessType()
-  }
-  if (isNaN(meleeStrengthType) || isNaN(ballisticStrengthType)) {
-    errorStrengthType()
-  }
-  if (meleeStrength < 1 || ballisticStrength < 1) {
-    errorStrength()
-  }
-  if (enemyToughness < 1 || enemyToughness > 8) {
-    errorToughness()
-  }
+    if (isNaN(enemyToughnessType)) {
+      errorToughnessType()
+    }
+    if (isNaN(meleeStrengthType) || isNaN(ballisticStrengthType)) {
+      errorStrengthType()
+    }
+    if (meleeStrength < 1 || ballisticStrength < 1) {
+      errorStrength()
+    }
+    if (enemyToughness < 1 || enemyToughness > 8) {
+      errorToughness()
+    }
 
-  const meleeDice = dice(meleeStrength, enemyToughness)
-  const meleeModification = modification(meleeDice, woundModifierMelee)
-  const meleeBasic = (6 - meleeDice + 1) / 6
-  const meleeModifiedBasic = (6 - meleeModification + 1) / 6
-  const meleeBasicFront = basicFront(
-    woundModifierMelee,
-    meleeBasic,
-    meleeModifiedBasic
-  )
-  const meleeBasicBack = meleeModifiedBasic
-  const meleeWound = reroll(
-    woundRerollMelee,
-    meleeModifiedBasic,
-    meleeBasicFront,
-    meleeBasicBack,
-    meleeBasic
-  )
-  const ballisticDice = dice(ballisticStrength, enemyToughness)
-  const ballisticModification = modification(
-    ballisticDice,
-    woundModifierBallistic
-  )
-  const ballisticBasic = (6 - ballisticDice + 1) / 6
-  const ballisticModifiedBasic = (6 - ballisticModification + 1) / 6
-  const ballisticBasicFront = basicFront(
-    woundModifierBallistic,
-    ballisticBasic,
-    ballisticModifiedBasic
-  )
-  const ballisticBasicBack = ballisticModifiedBasic
-  const ballisticWound = reroll(
-    woundRerollBallistic,
-    ballisticModifiedBasic,
-    ballisticBasicFront,
-    ballisticBasicBack,
-    ballisticBasic
-  )
-  const meleeWoundProbability = probability(hitProbMelee, meleeWound)
-  const ballisticWoundProbability = probability(
-    hitProbBallistic,
-    ballisticWound
-  )
-  /**
-   * @namespace
-   * @property {object} woundProbabilityReturn - woundProbability return object
-   * @property {number} woundProbabilityReturn.melee - melee wound probability
-   * @property {number} woundProbabilityReturn.ballistic - ballistic wound probability
-   */
-  return {
-    melee: meleeWoundProbability,
-    ballistic: ballisticWoundProbability
+    const meleeDice = dice(meleeStrength, enemyToughness)
+    const meleeModification = modification(meleeDice, woundModifierMelee)
+    const meleeBasic = (6 - meleeDice + 1) / 6
+    const meleeModifiedBasic = (6 - meleeModification + 1) / 6
+    const meleeBasicFront = basicFront(
+      woundModifierMelee,
+      meleeBasic,
+      meleeModifiedBasic
+    )
+    const meleeBasicBack = meleeModifiedBasic
+    const meleeWound = reroll(
+      woundRerollMelee,
+      meleeModifiedBasic,
+      meleeBasicFront,
+      meleeBasicBack,
+      meleeBasic
+    )
+    const ballisticDice = dice(ballisticStrength, enemyToughness)
+    const ballisticModification = modification(
+      ballisticDice,
+      woundModifierBallistic
+    )
+    const ballisticBasic = (6 - ballisticDice + 1) / 6
+    const ballisticModifiedBasic = (6 - ballisticModification + 1) / 6
+    const ballisticBasicFront = basicFront(
+      woundModifierBallistic,
+      ballisticBasic,
+      ballisticModifiedBasic
+    )
+    const ballisticBasicBack = ballisticModifiedBasic
+    const ballisticWound = reroll(
+      woundRerollBallistic,
+      ballisticModifiedBasic,
+      ballisticBasicFront,
+      ballisticBasicBack,
+      ballisticBasic
+    )
+    const meleeWoundProbability = probability(hitProbMelee, meleeWound)
+    const ballisticWoundProbability = probability(
+      hitProbBallistic,
+      ballisticWound
+    )
+    /**
+     * @namespace
+     * @property {object} woundProbabilityReturn - woundProbability return object
+     * @property {number} woundProbabilityReturn.melee - melee wound probability
+     * @property {number} woundProbabilityReturn.ballistic - ballistic wound probability
+     */
+    return {
+      melee: meleeWoundProbability,
+      ballistic: ballisticWoundProbability
+    }
   }
 }
 export { woundProbability }
