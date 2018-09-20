@@ -6,6 +6,10 @@ import {
   errorAP,
   errorAPType
 } from '../src/util/error'
+import { positive } from '../src/util/positive'
+import { save } from '../src/util/save'
+import { defineValue } from '../src/util/defineValue'
+import { notDefined } from '../src/util/notDefined'
 /**
  * Calculate damage probability
  * @param {object} props - property object
@@ -25,15 +29,13 @@ import {
  * @returns {object} averageDamage
  */
 function damageProbability (props) {
-  let meleeAP = props.model.melee.attackPower
-  let ballisticAP = props.model.ballistic.attackPower
-  let damageMelee = props.model.melee.damage
-  let damageBallistic = props.model.ballistic.damage
-  let enemySave = props.enemy.save
-  let enemyInvSave = props.enemy.invulnerableSave
-  let enemySaveModifier = props.enemy.saveModifier
-  let saveMelee = 0
-  let saveBallistic = 0
+  const meleeAP = positive(defineValue(props.model.melee.attackPower))
+  const ballisticAP = positive(defineValue(props.model.ballistic.attackPower))
+  const damageMelee = notDefined(props.model.melee.damage)
+  const damageBallistic = notDefined(props.model.ballistic.damage)
+  const enemySave = notDefined(props.enemy.save)
+  const enemyInvSave = defineValue(props.enemy.invulnerableSave)
+  const enemySaveModifier = defineValue(props.enemy.saveModifier)
 
   if (
     damageMelee < 1 ||
@@ -60,43 +62,13 @@ function damageProbability (props) {
     errorAPType()
   }
 
-  if (meleeAP < 0) {
-    meleeAP = meleeAP * -1
-  }
-  if (ballisticAP < 0) {
-    ballisticAP = ballisticAP * -1
-  }
-
-  if (
-    enemySave + meleeAP - enemySaveModifier > enemyInvSave &&
-    enemyInvSave === 0 &&
-    enemySave + meleeAP - enemySaveModifier > 6
-  ) {
-    saveMelee = 1
-  } else if (
-    enemySave + meleeAP - enemySaveModifier <= enemyInvSave ||
-    enemyInvSave === 0
-  ) {
-    saveMelee = 1 - (6 - (enemySave + meleeAP - enemySaveModifier) + 1) / 6
-  } else {
-    saveMelee = 1 - (6 - enemyInvSave + 1) / 6
-  }
-  if (
-    enemySave + ballisticAP - enemySaveModifier > enemyInvSave &&
-    enemyInvSave === 0 &&
-    enemySave + ballisticAP - enemySaveModifier > 6
-  ) {
-    saveBallistic = 1
-  } else if (
-    enemySave + ballisticAP - enemySaveModifier < enemyInvSave ||
-    enemyInvSave === 0
-  ) {
-    saveBallistic =
-      1 - (6 - (enemySave + ballisticAP - enemySaveModifier) + 1) / 6
-  } else {
-    saveBallistic = 1 - (6 - enemyInvSave + 1) / 6
-  }
-
+  const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
+  const saveBallistic = save(
+    enemySave,
+    ballisticAP,
+    enemySaveModifier,
+    enemyInvSave
+  )
   const averageDamageMelee =
     props.woundProbability.melee * saveMelee * damageMelee
   const averageDamageBallistic =

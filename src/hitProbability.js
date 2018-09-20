@@ -1,4 +1,11 @@
 import { errorRange, errorHitType } from '../src/util/error'
+import { modification } from '../src/util/modification'
+import { basicFront } from '../src/util/basicFrontModifier'
+import { reroll } from '../src/util/reroll'
+import { probability } from '../src/util/probabilityFunction'
+import { defineValue } from '../src/util/defineValue'
+import { defineReroll } from '../src/util/defineReroll'
+import { notDefined } from '../src/util/notDefined'
 
 /**
  * Calculate hit probability
@@ -17,26 +24,8 @@ import { errorRange, errorHitType } from '../src/util/error'
  * @returns {object} hitProbabilityReturn
  */
 function hitProbability (props) {
-  let meleeProbability = 0
-  let ballisticProbability = 0
-  let meleeBasic = (6 - props.model.melee.skill + 1) / 6
-  let meleeModification = props.model.melee.skill - props.hitModifier.melee
-  if (meleeModification < 2) {
-    meleeModification = 2
-  }
-  let meleeModifiedBasic = (6 - meleeModification + 1) / 6
-  let meleeBasicFront = 0
-  let meleeBasicBack = 0
-  let ballisticBasic = (6 - props.model.ballistic.skill + 1) / 6
-  let ballisticModification =
-    props.model.ballistic.skill - props.hitModifier.ballistic
-  if (ballisticModification < 2) {
-    ballisticModification = 2
-  }
-  let ballisticModifiedBasic = (6 - ballisticModification + 1) / 6
-  let ballisticBasicFront = 0
-  let ballisticBasicBack = 0
-
+  notDefined(props.model.melee.skill)
+  notDefined(props.model.ballistic.skill)
   if (
     props.model.melee.skill < 2 ||
     props.model.melee.skill > 6 ||
@@ -45,46 +34,51 @@ function hitProbability (props) {
   ) {
     errorRange()
   }
+  const hitRerollMelee = defineReroll(props.hitReroll.melee)
+  const hitRerollBallistic = defineReroll(props.hitReroll.ballistic)
+  const hitModifierMelee = defineValue(props.hitModifier.melee)
+  const hitModifierBallistic = defineValue(props.hitModifier.ballistic)
 
-  if (props.hitModifier.melee >= 0) {
-    meleeBasicFront = meleeBasic
-    meleeBasicBack = meleeModifiedBasic
-  } else {
-    meleeBasicFront = meleeModifiedBasic
-    meleeBasicBack = meleeModifiedBasic
-  }
-
-  if (props.hitModifier.ballistic >= 0) {
-    ballisticBasicFront = ballisticBasic
-    ballisticBasicBack = ballisticModifiedBasic
-  } else {
-    ballisticBasicFront = ballisticModifiedBasic
-    ballisticBasicBack = ballisticModifiedBasic
-  }
-
-  if (props.hitReroll.melee === 'reroll-none') {
-    meleeProbability = meleeModifiedBasic
-  } else if (props.hitReroll.melee === 'reroll-1') {
-    meleeProbability = meleeBasicFront + 1 / 6 * meleeBasicBack
-  } else {
-    meleeProbability = meleeBasicFront + (1 - meleeBasic) * meleeBasicBack
-  }
-
-  if (props.hitReroll.ballistic === 'reroll-none') {
-    ballisticProbability = ballisticModifiedBasic
-  } else if (props.hitReroll.ballistic === 'reroll-1') {
-    ballisticProbability = ballisticBasicFront + 1 / 6 * ballisticBasicBack
-  } else {
-    ballisticProbability =
-      ballisticBasicFront + (1 - ballisticBasic) * ballisticBasicBack
-  }
-
-  if (meleeProbability < 0) {
-    meleeProbability = 0
-  }
-  if (ballisticProbability < 0) {
-    ballisticProbability = 0
-  }
+  const meleeBasic = (6 - props.model.melee.skill + 1) / 6
+  const meleeModification = modification(
+    props.model.melee.skill,
+    hitModifierMelee
+  )
+  const meleeModifiedBasic = (6 - meleeModification + 1) / 6
+  const ballisticBasic = (6 - props.model.ballistic.skill + 1) / 6
+  const ballisticModification = modification(
+    props.model.ballistic.skill,
+    hitModifierBallistic
+  )
+  const ballisticModifiedBasic = (6 - ballisticModification + 1) / 6
+  const meleeBasicFront = basicFront(
+    hitModifierMelee,
+    meleeBasic,
+    meleeModifiedBasic
+  )
+  const meleeBasicBack = meleeModifiedBasic
+  const ballisticBasicFront = basicFront(
+    hitModifierBallistic,
+    ballisticBasic,
+    ballisticModifiedBasic
+  )
+  const ballisticBasicBack = ballisticModifiedBasic
+  const meleeValue = reroll(
+    hitRerollMelee,
+    meleeModifiedBasic,
+    meleeBasicFront,
+    meleeBasicBack,
+    meleeBasic
+  )
+  const ballisticValue = reroll(
+    hitRerollBallistic,
+    ballisticModifiedBasic,
+    ballisticBasicFront,
+    ballisticBasicBack,
+    ballisticBasic
+  )
+  const meleeProbability = probability(meleeValue, 1)
+  const ballisticProbability = probability(ballisticValue, 1)
 
   if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
     errorHitType()
