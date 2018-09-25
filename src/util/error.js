@@ -35,7 +35,7 @@ function errorDamageType () {
   throw new TypeError('Please use a value between 1 and 6.')
 }
 function errorValue () {
-  throw new ReferenceError('Please insert a value')
+  throw new RangeError('Please insert a value')
 }
 export {
   errorRange,
