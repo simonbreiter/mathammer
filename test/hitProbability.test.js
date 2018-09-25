@@ -13,86 +13,79 @@ test("function exists", () => {
   expect(hitProbability).toBeDefined();
 });
 
-test("hit probability with no reroll", () => {
+test("hit probability melee with no reroll", () => {
   const config = {
-    meleeSkill: 3,
+    meleeSkill: 3
+  };
+  const props = propsFactory(config);
+  const expected = expectedFactory(0.667);
+
+  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
+});
+
+test("hit probability ballistic with no reroll", () => {
+  const config = {
     ballisticSkill: 3
   };
   const props = propsFactory(config);
-  const expected = expectedFactory(0.667, 0.667);
 
-  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+  expect(hitProbability(props).ballistic).toBeCloseTo(0.667);
 });
 
 test("hit probability with melee reroll-1", () => {
   const config = {
     meleeSkill: 3,
-    ballisticSkill: 3,
     hitRerollMelee: "reroll-1"
   };
   const props = propsFactory(config);
-  const expected = expectedFactory(0.77777, 0.667);
+  const expected = expectedFactory(0.77777);
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
-
-test("hit probability with ballistic reroll-1", () => {
-  const config = {
-    meleeSkill: 3,
-    ballisticSkill: 3,
-    hitRerollBallistic: "reroll-1"
-  };
-  const props = propsFactory(config);
-  const expected = expectedFactory(0.667, 0.77777);
-
-  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });
 
 test("hit probability with melee reroll-all + ball reroll-1", () => {
   const config = {
     meleeSkill: 3,
     ballisticSkill: 3,
-    hitRerollMelee: "reroll-all",
-    hitRerollBallistic: "reroll-1"
+    hitRerollMelee: "reroll-all"
   };
   const props = propsFactory(config);
-  const expected = expectedFactory(0.8888888, 0.77777);
+  const expected = expectedFactory(0.8888888);
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });
 
 test("-1 hit and +1 hit modifier(eg. heavy weapon moving) with no reroll", () => {
   const config = {
     meleeSkill: 3,
+    meleeHitModifier: -1
+  };
+  const props = propsFactory(config);
+  const expected = expectedFactory(0.5);
+
+  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
+});
+
+test("-1 hit and +1 hit modifier(eg. heavy weapon moving) with no reroll", () => {
+  const config = {
     ballisticSkill: 3,
-    meleeHitModifier: -1,
     ballisticHitModifier: 1
   };
   const props = propsFactory(config);
-  const expected = expectedFactory(0.5, 0.8333);
 
-  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+  expect(hitProbability(props).ballistic).toBeCloseTo(0.8333);
 });
 
 test("-1 hit modifier(eg. heavy weapon moving) reroll-all", () => {
   const config = {
     meleeSkill: 3,
-    ballisticSkill: 4,
     meleeHitModifier: -1,
-    ballisticHitModifier: -1,
-    hitRerollMelee: "reroll-all",
-    hitRerollBallistic: "reroll-all"
+    hitRerollMelee: "reroll-all"
   };
   const props = propsFactory(config);
-  const expected = expectedFactory(0.6667, 0.5);
+  const expected = expectedFactory(0.6667);
 
   expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });
 
 test("-1 hit modifier(eg. heavy weapon moving) reroll-1", () => {
@@ -295,14 +288,46 @@ test("Error > 6", () => {
   }).toThrowError(RangeError);
 });
 
-test("Error = 0", () => {
-  const config = {
-    meleeSkill: 3,
-    ballisticSkill: 0
-  };
-  const props = propsFactory(config);
+test("Error no value1", () => {
+  const props = {};
 
   expect(() => {
     hitProbability(props);
   }).toThrowError(RangeError);
+});
+
+test("only melee", () => {
+  const props = {
+    model: {
+      melee: {
+        skill: 3
+      }
+    },
+    hitReroll: {
+      melee: "reroll-none"
+    }
+  };
+  const expected = {
+    melee: 0.667
+  };
+
+  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
+});
+
+test("only ballistic", () => {
+  const props = {
+    model: {
+      ballistic: {
+        skill: 3
+      }
+    },
+    hitReroll: {
+      ballistic: "reroll-none"
+    }
+  };
+  const expected = {
+    ballistic: 0.667
+  };
+
+  expect(hitProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });

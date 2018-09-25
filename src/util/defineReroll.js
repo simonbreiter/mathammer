@@ -1,5 +1,5 @@
 function defineReroll (reroll) {
-  if (reroll === undefined) {
+  if (typeof reroll === 'undefined') {
     return 'reroll-none'
   } else {
     return reroll
