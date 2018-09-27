@@ -1,9 +1,12 @@
-import { errorRange, errorHitType, errorValue } from '../src/util/error'
+import {
+  errorValueInRange,
+  errorStringValue,
+  errorValue
+} from '../src/util/error'
 import { modification } from '../src/util/modification'
 import { basicFront } from '../src/util/basicFrontModifier'
 import { reroll } from '../src/util/reroll'
 import { probability } from '../src/util/probabilityFunction'
-import { defineReroll } from '../src/util/defineReroll'
 
 /**
  * Calculate hit probability
@@ -29,9 +32,14 @@ function hitProbability (props) {
     !props.model.hasOwnProperty('ballistic')
   ) {
     if (props.model.melee.skill < 2 || props.model.melee.skill > 6) {
-      errorRange()
+      errorValueInRange()
     }
-    const hitRerollMelee = defineReroll(props.hitReroll.melee)
+    let hitRerollMelee = 0
+    if (props.hasOwnProperty('hitReroll')) {
+      hitRerollMelee = props.hitReroll.melee
+    } else {
+      hitRerollMelee = 'reroll-none'
+    }
 
     let hitModifierMelee = 0
     if (props.hasOwnProperty('hitModifier')) {
@@ -60,10 +68,9 @@ function hitProbability (props) {
       meleeBasic
     )
     const meleeProbability = probability(meleeValue, 1)
-    const ballisticProbability = 0
 
-    if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
-      errorHitType()
+    if (isNaN(meleeProbability)) {
+      errorStringValue()
     }
     /**
      * @namespace
@@ -72,17 +79,21 @@ function hitProbability (props) {
      * @property {number} hitProbabilityReturn.ballistic - ballistic hit probability
      */
     return {
-      melee: meleeProbability,
-      ballistic: ballisticProbability
+      melee: meleeProbability
     }
   } else if (
     !props.model.hasOwnProperty('melee') &&
     props.model.hasOwnProperty('ballistic')
   ) {
     if (props.model.ballistic.skill < 2 || props.model.ballistic.skill > 6) {
-      errorRange()
+      errorValueInRange()
     }
-    const hitRerollBallistic = defineReroll(props.hitReroll.ballistic)
+    let hitRerollBallistic = 0
+    if (props.hasOwnProperty('hitReroll')) {
+      hitRerollBallistic = props.hitReroll.ballistic
+    } else {
+      hitRerollBallistic = 'reroll-none'
+    }
     let hitModifierBallistic = 0
     if (props.hasOwnProperty('hitModifier')) {
       hitModifierBallistic = props.hitModifier.ballistic
@@ -110,11 +121,10 @@ function hitProbability (props) {
       ballisticBasicBack,
       ballisticBasic
     )
-    const meleeProbability = 0
     const ballisticProbability = probability(ballisticValue, 1)
 
-    if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
-      errorHitType()
+    if (isNaN(ballisticProbability)) {
+      errorStringValue()
     }
     /**
      * @namespace
@@ -123,7 +133,6 @@ function hitProbability (props) {
      * @property {number} hitProbabilityReturn.ballistic - ballistic hit probability
      */
     return {
-      melee: meleeProbability,
       ballistic: ballisticProbability
     }
   } else {
@@ -133,10 +142,20 @@ function hitProbability (props) {
       props.model.ballistic.skill < 2 ||
       props.model.ballistic.skill > 6
     ) {
-      errorRange()
+      errorValueInRange()
     }
-    const hitRerollMelee = defineReroll(props.hitReroll.melee)
-    const hitRerollBallistic = defineReroll(props.hitReroll.ballistic)
+    let hitRerollMelee = 0
+    if (props.hasOwnProperty('hitReroll')) {
+      hitRerollMelee = props.hitReroll.melee
+    } else {
+      hitRerollMelee = 'reroll-none'
+    }
+    let hitRerollBallistic = 0
+    if (props.hasOwnProperty('hitReroll')) {
+      hitRerollBallistic = props.hitReroll.ballistic
+    } else {
+      hitRerollBallistic = 'reroll-none'
+    }
     let hitModifierMelee = 0
     if (props.hasOwnProperty('hitModifier')) {
       hitModifierMelee = props.hitModifier.melee
@@ -192,7 +211,7 @@ function hitProbability (props) {
     const ballisticProbability = probability(ballisticValue, 1)
 
     if (isNaN(meleeProbability) || isNaN(ballisticProbability)) {
-      errorHitType()
+      errorStringValue()
     }
     /**
      * @namespace
