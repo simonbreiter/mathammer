@@ -1,10 +1,6 @@
 import {
-  errorDamage,
-  errorDamageType,
-  errorSave,
-  errorSaveType,
-  errorAP,
-  errorAPType,
+  errorValueInRange,
+  errorStringValue,
   errorValue
 } from '../src/util/error'
 import { positive } from '../src/util/positive'
@@ -55,29 +51,24 @@ function damageProbability (props) {
     } else {
       enemySaveModifier = 0
     }
-    if (damageMelee < 1 || damageMelee > 6) {
-      errorDamage()
-    }
     if (
+      damageMelee < 1 ||
+      damageMelee > 6 ||
       enemySave < 1 ||
       enemySave > 6 ||
       enemyInvSave < 0 ||
-      enemyInvSave > 6
+      enemyInvSave > 6 ||
+      meleeAP > 6
     ) {
-      errorSave()
+      errorValueInRange()
     }
-    if (meleeAP > 6) {
-      errorAP()
-    }
-    if (isNaN(damageMelee * 1)) {
-      errorDamageType()
-    }
-    if (isNaN(enemySave * 1) || isNaN(enemyInvSave * 1)) {
-      errorSaveType()
-    }
-    // Typeof Test, da AP in der Formel addiert wird und es zu einem Fehler kommt
-    if (typeof meleeAP === 'string') {
-      errorAPType()
+    if (
+      isNaN(damageMelee * 1) ||
+      isNaN(enemySave * 1) ||
+      isNaN(enemyInvSave * 1) ||
+      typeof meleeAP === 'string'
+    ) {
+      errorStringValue()
     }
 
     const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
@@ -120,29 +111,24 @@ function damageProbability (props) {
       enemySaveModifier = 0
     }
 
-    if (damageBallistic < 1 || damageBallistic > 6) {
-      errorDamage()
-    }
     if (
+      damageBallistic < 1 ||
+      damageBallistic > 6 ||
       enemySave < 1 ||
       enemySave > 6 ||
       enemyInvSave < 0 ||
-      enemyInvSave > 6
+      enemyInvSave > 6 ||
+      ballisticAP > 6
     ) {
-      errorSave()
+      errorValueInRange()
     }
-    if (ballisticAP > 6) {
-      errorAP()
-    }
-    if (isNaN(damageBallistic * 1)) {
-      errorDamageType()
-    }
-    if (isNaN(enemySave * 1) || isNaN(enemyInvSave * 1)) {
-      errorSaveType()
-    }
-    // Typeof Test, da AP in der Formel addiert wird und es zu einem Fehler kommt
-    if (typeof ballisticAP === 'string') {
-      errorAPType()
+    if (
+      isNaN(damageBallistic * 1) ||
+      isNaN(enemySave * 1) ||
+      isNaN(enemyInvSave * 1) ||
+      typeof ballisticAP === 'string'
+    ) {
+      errorStringValue()
     }
 
     const saveBallistic = save(
@@ -199,30 +185,26 @@ function damageProbability (props) {
       damageMelee < 1 ||
       damageMelee > 6 ||
       damageBallistic < 1 ||
-      damageBallistic > 6
-    ) {
-      errorDamage()
-    }
-    if (
+      damageBallistic > 6 ||
       enemySave < 1 ||
       enemySave > 6 ||
       enemyInvSave < 0 ||
-      enemyInvSave > 6
+      enemyInvSave > 6 ||
+      meleeAP > 6 ||
+      ballisticAP > 6
     ) {
-      errorSave()
+      errorValueInRange()
     }
-    if (meleeAP > 6 || ballisticAP > 6) {
-      errorAP()
-    }
-    if (isNaN(damageMelee * 1) || isNaN(damageBallistic * 1)) {
-      errorDamageType()
-    }
-    if (isNaN(enemySave * 1) || isNaN(enemyInvSave * 1)) {
-      errorSaveType()
-    }
-    // Typeof Test, da AP in der Formel addiert wird und es zu einem Fehler kommt
-    if (typeof meleeAP === 'string' || typeof ballisticAP === 'string') {
-      errorAPType()
+
+    if (
+      isNaN(damageMelee * 1) ||
+      isNaN(damageBallistic * 1) ||
+      isNaN(enemySave * 1) ||
+      isNaN(enemyInvSave * 1) ||
+      typeof meleeAP === 'string' ||
+      typeof ballisticAP === 'string'
+    ) {
+      errorStringValue()
     }
 
     const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)

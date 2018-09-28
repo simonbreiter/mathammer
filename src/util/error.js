@@ -1,54 +1,10 @@
-function errorRange () {
-  throw new RangeError('Values are not in range, use a value between 2 and 6.')
+function errorValueInRange () {
+  throw new RangeError('Please use a Value in range.')
 }
-function errorHitType () {
-  throw new TypeError('Please use a value between 2 and 6.')
-}
-function errorStrength () {
-  throw new RangeError('Values are not in range, use a value > 0.')
-}
-function errorStrengthType () {
-  throw new TypeError('Please use a value > 0.')
-}
-function errorToughness () {
-  throw new RangeError('Values are not in range, use a value between 2 and 8.')
-}
-function errorToughnessType () {
-  throw new TypeError('Please use a value between 2 and 8.')
-}
-function errorSave () {
-  throw new RangeError('Values are not in range, use a value between 2 and 6.')
-}
-function errorSaveType () {
-  throw new TypeError('Please use a value between 2 and 6.')
-}
-function errorAP () {
-  throw new RangeError('Values are not in range, use a value between 0 and 6.')
-}
-function errorAPType () {
-  throw new TypeError('Please use a value between 0 and 6.')
-}
-function errorDamage () {
-  throw new RangeError('Values are not in range, use a value between 1 and 6.')
-}
-function errorDamageType () {
-  throw new TypeError('Please use a value between 1 and 6.')
+function errorStringValue () {
+  throw new TypeError('Please insert a Number, not a String')
 }
 function errorValue () {
   throw new RangeError('Please insert a value')
 }
-export {
-  errorRange,
-  errorHitType,
-  errorStrength,
-  errorStrengthType,
-  errorToughness,
-  errorToughnessType,
-  errorSave,
-  errorSaveType,
-  errorAP,
-  errorAPType,
-  errorDamage,
-  errorDamageType,
-  errorValue
-}
+export { errorValueInRange, errorStringValue, errorValue }

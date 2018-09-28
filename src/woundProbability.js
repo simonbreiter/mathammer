@@ -1,8 +1,6 @@
 import {
-  errorStrength,
-  errorStrengthType,
-  errorToughness,
-  errorToughnessType,
+  errorValueInRange,
+  errorStringValue,
   errorValue
 } from '../src/util/error'
 import { dice } from '../src/util/dice'
@@ -10,7 +8,6 @@ import { modification } from '../src/util/modification'
 import { basicFront } from '../src/util/basicFrontModifier'
 import { reroll } from '../src/util/reroll'
 import { probability } from '../src/util/probabilityFunction'
-import { defineReroll } from '../src/util/defineReroll'
 /**
  * Calculate wound probability
  * @param {object} props - property object
@@ -41,7 +38,14 @@ function woundProbability (props) {
     const hitProbMelee = props.hitProbability.melee
     const meleeStrengthType = meleeStrength * 1
     const enemyToughnessType = enemyToughness * 1
-    const woundRerollMelee = defineReroll(props.woundReroll.melee)
+
+    let woundRerollMelee = 0
+    if (props.hasOwnProperty('woundReroll')) {
+      woundRerollMelee = props.woundReroll.melee
+    } else {
+      woundRerollMelee = 'reroll-none'
+    }
+
     let woundModifierMelee = 0
     if (props.hasOwnProperty('woundModifier')) {
       woundModifierMelee = props.woundModifier.melee
@@ -49,17 +53,11 @@ function woundProbability (props) {
       woundModifierMelee = 0
     }
 
-    if (isNaN(enemyToughnessType)) {
-      errorToughnessType()
+    if (isNaN(enemyToughnessType) || isNaN(meleeStrengthType)) {
+      errorStringValue()
     }
-    if (isNaN(meleeStrengthType)) {
-      errorStrengthType()
-    }
-    if (meleeStrength < 1) {
-      errorStrength()
-    }
-    if (enemyToughness < 1 || enemyToughness > 8) {
-      errorToughness()
+    if (meleeStrength < 1 || enemyToughness < 1 || enemyToughness > 8) {
+      errorValueInRange()
     }
 
     const meleeDice = dice(meleeStrength, enemyToughness)
@@ -100,7 +98,14 @@ function woundProbability (props) {
     const hitProbBallistic = props.hitProbability.ballistic
     const ballisticStrengthType = ballisticStrength * 1
     const enemyToughnessType = enemyToughness * 1
-    const woundRerollBallistic = defineReroll(props.woundReroll.ballistic)
+
+    let woundRerollBallistic = 0
+    if (props.hasOwnProperty('woundReroll')) {
+      woundRerollBallistic = props.woundReroll.ballistic
+    } else {
+      woundRerollBallistic = 'reroll-none'
+    }
+
     let woundModifierBallistic = 0
     if (props.hasOwnProperty('woundModifier')) {
       woundModifierBallistic = props.woundModifier.ballistic
@@ -108,17 +113,11 @@ function woundProbability (props) {
       woundModifierBallistic = 0
     }
 
-    if (isNaN(enemyToughnessType)) {
-      errorToughnessType()
+    if (isNaN(enemyToughnessType) || isNaN(ballisticStrengthType)) {
+      errorStringValue()
     }
-    if (isNaN(ballisticStrengthType)) {
-      errorStrengthType()
-    }
-    if (ballisticStrength < 1) {
-      errorStrength()
-    }
-    if (enemyToughness < 1 || enemyToughness > 8) {
-      errorToughness()
+    if (ballisticStrength < 1 || enemyToughness < 1 || enemyToughness > 8) {
+      errorValueInRange()
     }
     const ballisticDice = dice(ballisticStrength, enemyToughness)
     const ballisticModification = modification(
@@ -164,8 +163,20 @@ function woundProbability (props) {
     const meleeStrengthType = meleeStrength * 1
     const ballisticStrengthType = ballisticStrength * 1
     const enemyToughnessType = enemyToughness * 1
-    const woundRerollMelee = defineReroll(props.woundReroll.melee)
-    const woundRerollBallistic = defineReroll(props.woundReroll.ballistic)
+
+    let woundRerollMelee = 0
+    if (props.hasOwnProperty('woundReroll')) {
+      woundRerollMelee = props.woundReroll.melee
+    } else {
+      woundRerollMelee = 'reroll-none'
+    }
+    let woundRerollBallistic = 0
+    if (props.hasOwnProperty('woundReroll')) {
+      woundRerollBallistic = props.woundReroll.ballistic
+    } else {
+      woundRerollBallistic = 'reroll-none'
+    }
+
     let woundModifierMelee = 0
     if (props.hasOwnProperty('woundModifier')) {
       woundModifierMelee = props.woundModifier.melee
@@ -179,17 +190,20 @@ function woundProbability (props) {
       woundModifierBallistic = 0
     }
 
-    if (isNaN(enemyToughnessType)) {
-      errorToughnessType()
+    if (
+      isNaN(enemyToughnessType) ||
+      isNaN(meleeStrengthType) ||
+      isNaN(ballisticStrengthType)
+    ) {
+      errorStringValue()
     }
-    if (isNaN(meleeStrengthType) || isNaN(ballisticStrengthType)) {
-      errorStrengthType()
-    }
-    if (meleeStrength < 1 || ballisticStrength < 1) {
-      errorStrength()
-    }
-    if (enemyToughness < 1 || enemyToughness > 8) {
-      errorToughness()
+    if (
+      meleeStrength < 1 ||
+      ballisticStrength < 1 ||
+      enemyToughness < 1 ||
+      enemyToughness > 8
+    ) {
+      errorValueInRange()
     }
 
     const meleeDice = dice(meleeStrength, enemyToughness)
