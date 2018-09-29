@@ -51,6 +51,12 @@ function damageProbability (props) {
     } else {
       enemySaveModifier = 0
     }
+    let attacksMelee = 0
+    if (props.model.melee.hasOwnProperty('attacks')) {
+      attacksMelee = props.model.melee.attacks
+    } else {
+      attacksMelee = 1
+    }
     if (
       damageMelee < 1 ||
       damageMelee > 6 ||
@@ -63,18 +69,30 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      isNaN(damageMelee * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
-      typeof meleeAP === 'string'
+      typeof damageMelee === 'string' ||
+      typeof enemySave === 'string' ||
+      typeof enemyInvSave === 'string' ||
+      typeof meleeAP === 'string' ||
+      typeof attacksMelee === 'string'
     ) {
       errorStringValue()
+    }
+    let dakkaMelee = 0
+    if (props.hasOwnProperty('dakkaDakkaDakka')) {
+      dakkaMelee = props.dakkaDakkaDakka.melee
+    } else {
+      dakkaMelee = 'no'
+    }
+    let totalAttacksMelee = 0
+    if (dakkaMelee === 'yes') {
+      totalAttacksMelee = attacksMelee + attacksMelee / 6
+    } else {
+      totalAttacksMelee = attacksMelee
     }
 
     const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
     const averageDamageMelee =
-      props.woundProbability.melee * saveMelee * damageMelee
-    const averageDamageBallistic = 0
+      props.woundProbability.melee * saveMelee * damageMelee * totalAttacksMelee
     /**
      * @namespace
      * @property {object} averageDamage - averageDamage return object
@@ -82,8 +100,7 @@ function damageProbability (props) {
      * @property {number} averageDamage.ballistic - average ballistic damage
      */
     return {
-      melee: averageDamageMelee,
-      ballistic: averageDamageBallistic
+      melee: averageDamageMelee
     }
   } else if (
     !props.model.hasOwnProperty('melee') &&
@@ -110,6 +127,12 @@ function damageProbability (props) {
     } else {
       enemySaveModifier = 0
     }
+    let attacksBallistic = 0
+    if (props.model.ballistic.hasOwnProperty('attacks')) {
+      attacksBallistic = props.model.ballistic.attacks
+    } else {
+      attacksBallistic = 1
+    }
 
     if (
       damageBallistic < 1 ||
@@ -123,12 +146,25 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      isNaN(damageBallistic * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
-      typeof ballisticAP === 'string'
+      typeof damageBallistic === 'string' ||
+      typeof enemySave === 'string' ||
+      typeof enemyInvSave === 'string' ||
+      typeof ballisticAP === 'string' ||
+      typeof attacksBallistic === 'string'
     ) {
       errorStringValue()
+    }
+    let dakkaBallistic = 0
+    if (props.hasOwnProperty('dakkaDakkaDakka')) {
+      dakkaBallistic = props.dakkaDakkaDakka.ballistic
+    } else {
+      dakkaBallistic = 'no'
+    }
+    let totalAttacksBallistic = 0
+    if (dakkaBallistic === 'yes') {
+      totalAttacksBallistic = attacksBallistic + attacksBallistic / 6
+    } else {
+      totalAttacksBallistic = attacksBallistic
     }
 
     const saveBallistic = save(
@@ -137,9 +173,11 @@ function damageProbability (props) {
       enemySaveModifier,
       enemyInvSave
     )
-    const averageDamageMelee = 0
     const averageDamageBallistic =
-      props.woundProbability.ballistic * saveBallistic * damageBallistic
+      props.woundProbability.ballistic *
+      saveBallistic *
+      damageBallistic *
+      totalAttacksBallistic
     /**
      * @namespace
      * @property {object} averageDamage - averageDamage return object
@@ -147,7 +185,6 @@ function damageProbability (props) {
      * @property {number} averageDamage.ballistic - average ballistic damage
      */
     return {
-      melee: averageDamageMelee,
       ballistic: averageDamageBallistic
     }
   } else {
@@ -180,6 +217,18 @@ function damageProbability (props) {
     } else {
       enemySaveModifier = 0
     }
+    let attacksMelee = 0
+    if (props.model.melee.hasOwnProperty('attacks')) {
+      attacksMelee = props.model.melee.attacks
+    } else {
+      attacksMelee = 1
+    }
+    let attacksBallistic = 0
+    if (props.model.ballistic.hasOwnProperty('attacks')) {
+      attacksBallistic = props.model.ballistic.attacks
+    } else {
+      attacksBallistic = 1
+    }
 
     if (
       damageMelee < 1 ||
@@ -197,14 +246,40 @@ function damageProbability (props) {
     }
 
     if (
-      isNaN(damageMelee * 1) ||
-      isNaN(damageBallistic * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
+      typeof damageMelee === 'string' ||
+      typeof damageBallistic === 'string' ||
+      typeof enemySave === 'string' ||
+      typeof enemyInvSave === 'string' ||
       typeof meleeAP === 'string' ||
-      typeof ballisticAP === 'string'
+      typeof ballisticAP === 'string' ||
+      typeof attacksMelee === 'string' ||
+      typeof attacksBallistic === 'string'
     ) {
       errorStringValue()
+    }
+    let dakkaMelee = 0
+    if (props.hasOwnProperty('dakkaDakkaDakka')) {
+      dakkaMelee = props.dakkaDakkaDakka.melee
+    } else {
+      dakkaMelee = 'no'
+    }
+    let totalAttacksMelee = 0
+    if (dakkaMelee === 'yes') {
+      totalAttacksMelee = attacksMelee + attacksMelee / 6
+    } else {
+      totalAttacksMelee = attacksMelee
+    }
+    let dakkaBallistic = 0
+    if (props.hasOwnProperty('dakkaDakkaDakka')) {
+      dakkaBallistic = props.dakkaDakkaDakka.ballistic
+    } else {
+      dakkaBallistic = 'no'
+    }
+    let totalAttacksBallistic = 0
+    if (dakkaBallistic === 'yes') {
+      totalAttacksBallistic = attacksBallistic + attacksBallistic / 6
+    } else {
+      totalAttacksBallistic = attacksBallistic
     }
 
     const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
@@ -215,9 +290,12 @@ function damageProbability (props) {
       enemyInvSave
     )
     const averageDamageMelee =
-      props.woundProbability.melee * saveMelee * damageMelee
+      props.woundProbability.melee * saveMelee * damageMelee * totalAttacksMelee
     const averageDamageBallistic =
-      props.woundProbability.ballistic * saveBallistic * damageBallistic
+      props.woundProbability.ballistic *
+      saveBallistic *
+      damageBallistic *
+      totalAttacksBallistic
     /**
      * @namespace
      * @property {object} averageDamage - averageDamage return object
