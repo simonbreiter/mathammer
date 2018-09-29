@@ -1,6 +1,6 @@
 {
   "name": "mathammer",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "main": "./dist/lib.node.js",
   "repository": "git@gitlab.com:simonbreiter/mathammer.git",
   "author": "Simon Breiter <hello@simonbreiter.com>",
