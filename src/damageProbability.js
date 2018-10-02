@@ -32,34 +32,34 @@ function damageProbability (props) {
   ) {
     let apMelee = 0
     if (props.model.melee.hasOwnProperty('attackPower')) {
-      apMelee = props.model.melee.attackPower
+      apMelee = parseInt(props.model.melee.attackPower)
     } else {
       apMelee = 0
     }
     const meleeAP = positive(apMelee)
-    const damageMelee = props.model.melee.damage
-    const enemySave = props.enemy.save
+    const damageMelee = parseInt(props.model.melee.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
-      enemyInvSave = props.enemy.invulnerableSave
+      enemyInvSave = parseInt(props.enemy.invulnerableSave)
     } else {
       enemyInvSave = 0
     }
     let enemySaveModifier = 0
     if (props.enemy.hasOwnProperty('saveModifier')) {
-      enemySaveModifier = props.enemy.saveModifier
+      enemySaveModifier = parseInt(props.enemy.saveModifier)
     } else {
       enemySaveModifier = 0
     }
     let attacksMelee = 0
     if (props.model.melee.hasOwnProperty('attacks')) {
-      attacksMelee = props.model.melee.attacks
+      attacksMelee = parseInt(props.model.melee.attacks)
     } else {
       attacksMelee = 1
     }
     let fnp = 0
     if (props.enemy.hasOwnProperty('feelNoPain')) {
-      fnp = props.enemy.feelNoPain
+      fnp = parseInt(props.enemy.feelNoPain)
     } else {
       fnp = 0
     }
@@ -79,12 +79,12 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      typeof damageMelee === 'string' ||
-      typeof enemySave === 'string' ||
-      typeof enemyInvSave === 'string' ||
-      typeof fnp === 'string' ||
-      typeof meleeAP === 'string' ||
-      typeof attacksMelee === 'string'
+      isNaN(damageMelee) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(fnp) ||
+      isNaN(meleeAP) ||
+      isNaN(attacksMelee)
     ) {
       errorStringValue()
     }
@@ -129,13 +129,13 @@ function damageProbability (props) {
   ) {
     let apBallistic = 0
     if (props.model.ballistic.hasOwnProperty('attackPower')) {
-      apBallistic = props.model.ballistic.attackPower
+      apBallistic = parseInt(props.model.ballistic.attackPower)
     } else {
       apBallistic = 0
     }
     const ballisticAP = positive(apBallistic)
-    const damageBallistic = props.model.ballistic.damage
-    const enemySave = props.enemy.save
+    const damageBallistic = parseInt(props.model.ballistic.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
       enemyInvSave = props.enemy.invulnerableSave
@@ -176,12 +176,12 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      typeof damageBallistic === 'string' ||
-      typeof enemySave === 'string' ||
-      typeof enemyInvSave === 'string' ||
-      typeof fnp === 'string' ||
-      typeof ballisticAP === 'string' ||
-      typeof attacksBallistic === 'string'
+      isNaN(damageBallistic) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(fnp) ||
+      isNaN(ballisticAP) ||
+      isNaN(attacksBallistic)
     ) {
       errorStringValue()
     }
@@ -228,48 +228,48 @@ function damageProbability (props) {
   } else {
     let apMelee = 0
     if (props.model.melee.hasOwnProperty('attackPower')) {
-      apMelee = props.model.melee.attackPower
+      apMelee = parseInt(props.model.melee.attackPower)
     } else {
       apMelee = 0
     }
     const meleeAP = positive(apMelee)
     let apBallistic = 0
     if (props.model.ballistic.hasOwnProperty('attackPower')) {
-      apBallistic = props.model.ballistic.attackPower
+      apBallistic = parseInt(props.model.ballistic.attackPower)
     } else {
       apBallistic = 0
     }
     const ballisticAP = positive(apBallistic)
-    const damageMelee = props.model.melee.damage
-    const damageBallistic = props.model.ballistic.damage
-    const enemySave = props.enemy.save
+    const damageMelee = parseInt(props.model.melee.damage)
+    const damageBallistic = parseInt(props.model.ballistic.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
-      enemyInvSave = props.enemy.invulnerableSave
+      enemyInvSave = parseInt(props.enemy.invulnerableSave)
     } else {
       enemyInvSave = 0
     }
     let enemySaveModifier = 0
     if (props.enemy.hasOwnProperty('saveModifier')) {
-      enemySaveModifier = props.enemy.saveModifier
+      enemySaveModifier = parseInt(props.enemy.saveModifier)
     } else {
       enemySaveModifier = 0
     }
     let attacksMelee = 0
     if (props.model.melee.hasOwnProperty('attacks')) {
-      attacksMelee = props.model.melee.attacks
+      attacksMelee = parseInt(props.model.melee.attacks)
     } else {
       attacksMelee = 1
     }
     let attacksBallistic = 0
     if (props.model.ballistic.hasOwnProperty('attacks')) {
-      attacksBallistic = props.model.ballistic.attacks
+      attacksBallistic = parseInt(props.model.ballistic.attacks)
     } else {
       attacksBallistic = 1
     }
     let fnp = 0
     if (props.enemy.hasOwnProperty('feelNoPain')) {
-      fnp = props.enemy.feelNoPain
+      fnp = parseInt(props.enemy.feelNoPain)
     } else {
       fnp = 0
     }
@@ -293,15 +293,15 @@ function damageProbability (props) {
     }
 
     if (
-      typeof damageMelee === 'string' ||
-      typeof damageBallistic === 'string' ||
-      typeof enemySave === 'string' ||
-      typeof enemyInvSave === 'string' ||
-      typeof fnp === 'string' ||
-      typeof meleeAP === 'string' ||
-      typeof ballisticAP === 'string' ||
-      typeof attacksMelee === 'string' ||
-      typeof attacksBallistic === 'string'
+      isNaN(damageMelee) ||
+      isNaN(damageBallistic) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(fnp) ||
+      isNaN(meleeAP) ||
+      isNaN(ballisticAP) ||
+      isNaN(attacksMelee) ||
+      isNaN(attacksBallistic)
     ) {
       errorStringValue()
     }

@@ -505,3 +505,22 @@ test("Error no value1", () => {
     hitProbability(props);
   }).toThrowError(RangeError);
 });
+
+test("only melee", () => {
+  const props = {
+    model: {
+      melee: {
+        skill: "4",
+        strength: 1
+      }
+    },
+    hitReroll: {
+      melee: "reroll-none"
+    }
+  };
+  const expected = {
+    melee: 0.5
+  };
+
+  expect(hitProbability(props).melee).toBeCloseTo(expected.melee);
+});

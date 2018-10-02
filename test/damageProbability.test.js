@@ -813,3 +813,90 @@ test("Feel no Pain", () => {
   expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
   expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });
+
+test("Feel no Pain", () => {
+  const props = {
+    model: {
+      melee: {
+        damage: "1",
+        attacks: "6"
+      },
+      ballistic: {
+        damage: "2",
+        attacks: "6"
+      }
+    },
+    enemy: {
+      save: 3,
+      feelNoPain: 5
+    },
+    hitProbability: {
+      melee: 0.6666,
+      ballistic: 0.6666
+    },
+    woundProbability: {
+      melee: 0.333,
+      ballistic: 0.333
+    }
+  };
+  const expected = {
+    melee: 0.4444,
+    ballistic: 0.8888
+  };
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+});
+
+test("String Enemy ball", () => {
+  const props = {
+    model: {
+      ballistic: {
+        damage: 2
+      }
+    },
+    enemy: {
+      save: "3",
+      saveModifier: "1"
+    },
+    hitProbability: {
+      ballistic: 0.6666
+    },
+    woundProbability: {
+      ballistic: 0.333
+    }
+  };
+
+  const expected = {
+    ballistic: 0.1111
+  };
+
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+});
+
+test("String Enemy melee", () => {
+  const props = {
+    model: {
+      melee: {
+        damage: 2
+      }
+    },
+    enemy: {
+      save: "3",
+      invulnerableSave: "2",
+      saveModifier: "1"
+    },
+    hitProbability: {
+      melee: 0.6666
+    },
+    woundProbability: {
+      melee: 0.333
+    }
+  };
+
+  const expected = {
+    melee: 0.1111
+  };
+
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
+});
