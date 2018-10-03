@@ -99,13 +99,13 @@ function damageProbability (props) {
     const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
-      enemyInvSave = props.enemy.invulnerableSave
+      enemyInvSave = parseInt(props.enemy.invulnerableSave)
     } else {
       enemyInvSave = 0
     }
     let enemySaveModifier = 0
     if (props.enemy.hasOwnProperty('saveModifier')) {
-      enemySaveModifier = props.enemy.saveModifier
+      enemySaveModifier = parseInt(props.enemy.saveModifier)
     } else {
       enemySaveModifier = 0
     }
