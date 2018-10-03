@@ -32,25 +32,26 @@ function damageProbability (props) {
   ) {
     let apMelee = 0
     if (props.model.melee.hasOwnProperty('attackPower')) {
-      apMelee = props.model.melee.attackPower
+      apMelee = parseInt(props.model.melee.attackPower)
     } else {
       apMelee = 0
     }
     const meleeAP = positive(apMelee)
-    const damageMelee = props.model.melee.damage
-    const enemySave = props.enemy.save
+    const damageMelee = parseInt(props.model.melee.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
-      enemyInvSave = props.enemy.invulnerableSave
+      enemyInvSave = parseInt(props.enemy.invulnerableSave)
     } else {
       enemyInvSave = 0
     }
     let enemySaveModifier = 0
     if (props.enemy.hasOwnProperty('saveModifier')) {
-      enemySaveModifier = props.enemy.saveModifier
+      enemySaveModifier = parseInt(props.enemy.saveModifier)
     } else {
       enemySaveModifier = 0
     }
+
     if (
       damageMelee < 1 ||
       damageMelee > 6 ||
@@ -63,10 +64,10 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      isNaN(damageMelee * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
-      typeof meleeAP === 'string'
+      isNaN(damageMelee) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(meleeAP)
     ) {
       errorStringValue()
     }
@@ -74,7 +75,6 @@ function damageProbability (props) {
     const saveMelee = save(enemySave, meleeAP, enemySaveModifier, enemyInvSave)
     const averageDamageMelee =
       props.woundProbability.melee * saveMelee * damageMelee
-    const averageDamageBallistic = 0
     /**
      * @namespace
      * @property {object} averageDamage - averageDamage return object
@@ -82,8 +82,7 @@ function damageProbability (props) {
      * @property {number} averageDamage.ballistic - average ballistic damage
      */
     return {
-      melee: averageDamageMelee,
-      ballistic: averageDamageBallistic
+      melee: averageDamageMelee
     }
   } else if (
     !props.model.hasOwnProperty('melee') &&
@@ -91,13 +90,13 @@ function damageProbability (props) {
   ) {
     let apBallistic = 0
     if (props.model.ballistic.hasOwnProperty('attackPower')) {
-      apBallistic = props.model.ballistic.attackPower
+      apBallistic = parseInt(props.model.ballistic.attackPower)
     } else {
       apBallistic = 0
     }
     const ballisticAP = positive(apBallistic)
-    const damageBallistic = props.model.ballistic.damage
-    const enemySave = props.enemy.save
+    const damageBallistic = parseInt(props.model.ballistic.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
       enemyInvSave = props.enemy.invulnerableSave
@@ -123,10 +122,10 @@ function damageProbability (props) {
       errorValueInRange()
     }
     if (
-      isNaN(damageBallistic * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
-      typeof ballisticAP === 'string'
+      isNaN(damageBallistic) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(ballisticAP)
     ) {
       errorStringValue()
     }
@@ -137,7 +136,6 @@ function damageProbability (props) {
       enemySaveModifier,
       enemyInvSave
     )
-    const averageDamageMelee = 0
     const averageDamageBallistic =
       props.woundProbability.ballistic * saveBallistic * damageBallistic
     /**
@@ -147,36 +145,35 @@ function damageProbability (props) {
      * @property {number} averageDamage.ballistic - average ballistic damage
      */
     return {
-      melee: averageDamageMelee,
       ballistic: averageDamageBallistic
     }
   } else {
     let apMelee = 0
     if (props.model.melee.hasOwnProperty('attackPower')) {
-      apMelee = props.model.melee.attackPower
+      apMelee = parseInt(props.model.melee.attackPower)
     } else {
       apMelee = 0
     }
     const meleeAP = positive(apMelee)
     let apBallistic = 0
     if (props.model.ballistic.hasOwnProperty('attackPower')) {
-      apBallistic = props.model.ballistic.attackPower
+      apBallistic = parseInt(props.model.ballistic.attackPower)
     } else {
       apBallistic = 0
     }
     const ballisticAP = positive(apBallistic)
-    const damageMelee = props.model.melee.damage
-    const damageBallistic = props.model.ballistic.damage
-    const enemySave = props.enemy.save
+    const damageMelee = parseInt(props.model.melee.damage)
+    const damageBallistic = parseInt(props.model.ballistic.damage)
+    const enemySave = parseInt(props.enemy.save)
     let enemyInvSave = 0
     if (props.enemy.hasOwnProperty('invulnerableSave')) {
-      enemyInvSave = props.enemy.invulnerableSave
+      enemyInvSave = parseInt(props.enemy.invulnerableSave)
     } else {
       enemyInvSave = 0
     }
     let enemySaveModifier = 0
     if (props.enemy.hasOwnProperty('saveModifier')) {
-      enemySaveModifier = props.enemy.saveModifier
+      enemySaveModifier = parseInt(props.enemy.saveModifier)
     } else {
       enemySaveModifier = 0
     }
@@ -197,12 +194,12 @@ function damageProbability (props) {
     }
 
     if (
-      isNaN(damageMelee * 1) ||
-      isNaN(damageBallistic * 1) ||
-      isNaN(enemySave * 1) ||
-      isNaN(enemyInvSave * 1) ||
-      typeof meleeAP === 'string' ||
-      typeof ballisticAP === 'string'
+      isNaN(damageMelee) ||
+      isNaN(damageBallistic) ||
+      isNaN(enemySave) ||
+      isNaN(enemyInvSave) ||
+      isNaN(meleeAP) ||
+      isNaN(ballisticAP)
     ) {
       errorStringValue()
     }

@@ -495,3 +495,34 @@ test("Error no value1", () => {
     woundProbability(props);
   }).toThrowError(RangeError);
 });
+
+test("wound probability smaller than toughness", () => {
+  const props = {
+    model: {
+      melee: {
+        strength: "2"
+      },
+      ballistic: {
+        strength: "3"
+      }
+    },
+    enemy: {
+      toughness: "4"
+    },
+    woundReroll: {
+      melee: "reroll-none",
+      ballistic: "reroll-none"
+    },
+    hitProbability: {
+      melee: 0.6666,
+      ballistic: 0.6666
+    }
+  };
+  const expected = {
+    melee: 0.111,
+    ballistic: 0.2222
+  };
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee);
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+});
