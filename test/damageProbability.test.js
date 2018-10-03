@@ -900,3 +900,36 @@ test("String Enemy melee", () => {
 
   expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
 });
+
+test("only ballistic", () => {
+  const props = {
+    model: {
+      ballistic: {
+        skill: 3,
+        strength: 4,
+        damage: 1
+      }
+    },
+    enemy: {
+      toughness: 4,
+      save: 4
+    },
+    hitReroll: {
+      ballistic: "reroll-none"
+    },
+    woundReroll: {
+      ballistic: "reroll-none"
+    },
+    hitProbability: {
+      ballistic: 0.6666
+    },
+    woundProbability: {
+      ballistic: 0.333
+    }
+  };
+  const expected = {
+    ballistic: 0.16666
+  };
+
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+});
