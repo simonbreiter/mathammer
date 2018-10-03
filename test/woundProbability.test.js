@@ -526,3 +526,59 @@ test("wound probability smaller than toughness", () => {
   expect(woundProbability(props).melee).toBeCloseTo(expected.melee);
   expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 });
+
+test("only ballistic", () => {
+  const props = {
+    model: {
+      ballistic: {
+        skill: 3,
+        strength: "4"
+      }
+    },
+    enemy: {
+      toughness: "4"
+    },
+    hitReroll: {
+      ballistic: "reroll-none"
+    },
+    woundReroll: {
+      ballistic: "reroll-none"
+    },
+    hitProbability: {
+      ballistic: 0.6666
+    }
+  };
+  const expected = {
+    ballistic: 0.333
+  };
+
+  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic);
+});
+
+test("only melee", () => {
+  const props = {
+    model: {
+      melee: {
+        skill: 3,
+        strength: "4"
+      }
+    },
+    enemy: {
+      toughness: "4"
+    },
+    hitReroll: {
+      melee: "reroll-none"
+    },
+    woundReroll: {
+      melee: "reroll-none"
+    },
+    hitProbability: {
+      melee: 0.6666
+    }
+  };
+  const expected = {
+    melee: 0.333
+  };
+
+  expect(woundProbability(props).melee).toBeCloseTo(expected.melee);
+});

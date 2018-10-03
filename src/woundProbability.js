@@ -33,8 +33,8 @@ function woundProbability (props) {
     props.model.hasOwnProperty('melee') &&
     !props.model.hasOwnProperty('ballistic')
   ) {
-    const meleeStrength = props.model.melee.strength
-    const enemyToughness = props.enemy.toughness
+    const meleeStrength = parseInt(props.model.melee.strength)
+    const enemyToughness = parseInt(props.enemy.toughness)
     const hitProbMelee = props.hitProbability.melee
     const meleeStrengthType = meleeStrength * 1
     const enemyToughnessType = enemyToughness * 1
@@ -91,8 +91,8 @@ function woundProbability (props) {
     !props.model.hasOwnProperty('melee') &&
     props.model.hasOwnProperty('ballistic')
   ) {
-    const ballisticStrength = props.model.ballistic.strength
-    const enemyToughness = props.enemy.toughness
+    const ballisticStrength = parseInt(props.model.ballistic.strength)
+    const enemyToughness = parseInt(props.enemy.toughness)
     const hitProbBallistic = props.hitProbability.ballistic
     const ballisticStrengthType = ballisticStrength * 1
     const enemyToughnessType = enemyToughness * 1
@@ -151,9 +151,9 @@ function woundProbability (props) {
       ballistic: ballisticWoundProbability
     }
   } else {
-    const meleeStrength = props.model.melee.strength
-    const ballisticStrength = props.model.ballistic.strength
-    const enemyToughness = props.enemy.toughness
+    const meleeStrength = parseInt(props.model.melee.strength)
+    const ballisticStrength = parseInt(props.model.ballistic.strength)
+    const enemyToughness = parseInt(props.enemy.toughness)
     const hitProbMelee = props.hitProbability.melee
     const hitProbBallistic = props.hitProbability.ballistic
     const meleeStrengthType = meleeStrength * 1
