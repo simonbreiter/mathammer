@@ -78,7 +78,6 @@ function woundProbability (props) {
       meleeBasic
     )
     const meleeWoundProbability = probability(hitProbMelee, meleeWound)
-    const ballisticWoundProbability = 0
     /**
      * @namespace
      * @property {object} woundProbabilityReturn - woundProbability return object
@@ -86,8 +85,7 @@ function woundProbability (props) {
      * @property {number} woundProbabilityReturn.ballistic - ballistic wound probability
      */
     return {
-      melee: meleeWoundProbability,
-      ballistic: ballisticWoundProbability
+      melee: meleeWoundProbability
     }
   } else if (
     !props.model.hasOwnProperty('melee') &&
@@ -139,7 +137,6 @@ function woundProbability (props) {
       ballisticBasicBack,
       ballisticBasic
     )
-    const meleeWoundProbability = 0
     const ballisticWoundProbability = probability(
       hitProbBallistic,
       ballisticWound
@@ -151,7 +148,6 @@ function woundProbability (props) {
      * @property {number} woundProbabilityReturn.ballistic - ballistic wound probability
      */
     return {
-      melee: meleeWoundProbability,
       ballistic: ballisticWoundProbability
     }
   } else {
