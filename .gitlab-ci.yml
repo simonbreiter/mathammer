@@ -9,7 +9,8 @@ build:
   artifacts:
     paths:
       - node_modules
-  script: 
+  script:
+    - npm install
 
 test:
   stage: test
