@@ -2,17 +2,16 @@
 
 ## Prerequisites
 * [Node](https://nodejs.org/en/)
-* [Yarn](https://yarnpkg.com/en/)
 
 ## Getting started
 On the first run install dependencies:
 ```bash
-yarn install
+npm install
 ```
 
 To start developing:
 ```bash
-yarn dev
+npm run dev
 ```
 This will start webpack, jest and makes documentation available on [localhost:4001](http://localhost:4001).
 
