@@ -16,8 +16,7 @@
     "docs:watch": "documentation serve --watch src/**",
     "test": "jest test --coverage",
     "test:watch": "jest test --watch",
-    "test:codacy-coverage":
-      "jest --coverage && cat ./coverage/lcov.info | codacy-coverage --token $CODACY_API_KEY"
+    "test:codacy-coverage": "jest --coverage && cat ./coverage/lcov.info | codacy-coverage --token $CODACY_API_KEY"
   },
   "browser": {
     "./dist/lib.node.js": "./dist/lib.js"
@@ -30,7 +29,10 @@
   },
   "lint-staged": {
     "linters": {
-      "src/**/*.(js|jsx)": ["prettier-standard", "git add"]
+      "src/**/*.(js|jsx)": [
+        "prettier-standard",
+        "git add"
+      ]
     }
   },
   "devDependencies": {
