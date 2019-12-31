@@ -1,8 +1,5 @@
 image: node:9
 
-before_script:
-  - yarn install
-
 cache:
   paths:
   - node_modules/
@@ -13,5 +10,5 @@ stages:
 test:
   stage: test
   script:
-    - yarn test:codacy-coverage
+    - npm run test:codacy-coverage
 
