@@ -6,7 +6,7 @@
   "author": "Simon Breiter <hello@simonbreiter.com>",
   "license": "MIT",
   "scripts": {
-    "standard": "standard",
+    "prettier-standard": "prettier-standard",
     "webpack:watch": "webpack --mode=development --watch",
     "node:dev": "nodemon --inspect dist/server.js",
     "build": "webpack --mode=production",
