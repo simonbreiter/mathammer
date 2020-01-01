@@ -1,5 +1,5 @@
 /* eslint-env jest */
-import { propsFactory } from '../src/util/propsFactory'
+import { propsFactory } from './propsFactory'
 
 test('factory test', () => {
   const config = {
@@ -90,7 +90,17 @@ test('factory test', () => {
       ballistic: 0.1666
     }
   }
-  const expected = Object.assign({}, model, enemy, woundReroll, hitReroll, hitModifier, woundModifier, hitProbability, woundProbability)
+  const expected = Object.assign(
+    {},
+    model,
+    enemy,
+    woundReroll,
+    hitReroll,
+    hitModifier,
+    woundModifier,
+    hitProbability,
+    woundProbability
+  )
 
   expect(propsFactory(config)).toEqual(expected)
 })

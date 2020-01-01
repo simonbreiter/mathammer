@@ -1,11 +1,11 @@
 /* eslint-env jest */
-import { damageProbability } from "../src/damageProbability";
+import { damageProbability } from './damageProbability'
 
-test("function exists", () => {
-  expect(damageProbability).toBeDefined();
-});
+test('function exists', () => {
+  expect(damageProbability).toBeDefined()
+})
 
-test("Damage No AP Dmg 1,2", () => {
+test('Damage No AP Dmg 1,2', () => {
   const props = {
     model: {
       melee: {
@@ -26,17 +26,17 @@ test("Damage No AP Dmg 1,2", () => {
       melee: 0.333,
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     melee: 0.1111,
     ballistic: 0.2222
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("Damage 1,2 AP Dmg 1, Save 3", () => {
+test('Damage 1,2 AP Dmg 1, Save 3', () => {
   const props = {
     model: {
       melee: {
@@ -59,17 +59,17 @@ test("Damage 1,2 AP Dmg 1, Save 3", () => {
       melee: 0.333,
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     melee: 0.1667,
     ballistic: 0.2222
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("Damage -1,-2 AP Dmg 1, Save 3", () => {
+test('Damage -1,-2 AP Dmg 1, Save 3', () => {
   const props = {
     model: {
       melee: {
@@ -92,17 +92,17 @@ test("Damage -1,-2 AP Dmg 1, Save 3", () => {
       melee: 0.333,
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     melee: 0.1667,
     ballistic: 0.2222
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4", () => {
+test('Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4', () => {
   const props = {
     model: {
       melee: {
@@ -126,17 +126,17 @@ test("Damage 1,2 AP Dmg 1, Save 3 InvulnerarbleSafe 4", () => {
       melee: 0.333,
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     melee: 0.1667,
     ballistic: 0.1667
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("only melee", () => {
+test('only melee', () => {
   const props = {
     model: {
       melee: {
@@ -157,16 +157,16 @@ test("only melee", () => {
       melee: 0.333,
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     melee: 0.1111,
     ballistic: 0.1111
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+})
 
-test("only ballistic", () => {
+test('only ballistic', () => {
   const props = {
     model: {
       ballistic: {
@@ -180,10 +180,10 @@ test("only ballistic", () => {
       save: 3
     },
     hitReroll: {
-      ballistic: "reroll-none"
+      ballistic: 'reroll-none'
     },
     woundReroll: {
-      ballistic: "reroll-none"
+      ballistic: 'reroll-none'
     },
     hitProbability: {
       ballistic: 0.6666
@@ -191,15 +191,15 @@ test("only ballistic", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
   const expected = {
     ballistic: 0.1111
-  };
+  }
 
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("#1Damage -1 AP Dmg 1, Save 6", () => {
+test('#1Damage -1 AP Dmg 1, Save 6', () => {
   const props = {
     model: {
       ballistic: {
@@ -217,15 +217,15 @@ test("#1Damage -1 AP Dmg 1, Save 6", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   const expected = {
     ballistic: 0.333
-  };
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  }
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("#3Damage Save Modifier +1, Dmg 1,2", () => {
+test('#3Damage Save Modifier +1, Dmg 1,2', () => {
   const props = {
     model: {
       ballistic: {
@@ -242,14 +242,14 @@ test("#3Damage Save Modifier +1, Dmg 1,2", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   const expected = {
     ballistic: 0.1111
-  };
+  }
 
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
 // test("attacks 2", () => {
 //   const props = {
@@ -427,11 +427,11 @@ test("#3Damage Save Modifier +1, Dmg 1,2", () => {
 //   expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 // });
 
-test("Error Type Damage", () => {
+test('Error Type Damage', () => {
   const props = {
     model: {
       ballistic: {
-        damage: "Senf"
+        damage: 'Senf'
       }
     },
     enemy: {
@@ -443,19 +443,19 @@ test("Error Type Damage", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(TypeError);
-});
+    damageProbability(props)
+  }).toThrow(TypeError)
+})
 
-test("Error Type AP", () => {
+test('Error Type AP', () => {
   const props = {
     model: {
       ballistic: {
         damage: 2,
-        attackPower: "Senf"
+        attackPower: 'Senf'
       }
     },
     enemy: {
@@ -467,14 +467,14 @@ test("Error Type AP", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(TypeError);
-});
+    damageProbability(props)
+  }).toThrow(TypeError)
+})
 
-test("Error Type AP", () => {
+test('Error Type AP', () => {
   const props = {
     model: {
       ballistic: {
@@ -491,13 +491,13 @@ test("Error Type AP", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
   expect(() => {
-    damageProbability(props);
-  }).toThrow(RangeError);
-});
+    damageProbability(props)
+  }).toThrow(RangeError)
+})
 
-test("Error Type Save", () => {
+test('Error Type Save', () => {
   const props = {
     model: {
       ballistic: {
@@ -506,7 +506,7 @@ test("Error Type Save", () => {
       }
     },
     enemy: {
-      save: "Senf"
+      save: 'Senf'
     },
     hitProbability: {
       ballistic: 0.6666
@@ -514,14 +514,14 @@ test("Error Type Save", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(TypeError);
-});
+    damageProbability(props)
+  }).toThrow(TypeError)
+})
 
-test("Error Type invSave", () => {
+test('Error Type invSave', () => {
   const props = {
     model: {
       ballistic: {
@@ -531,7 +531,7 @@ test("Error Type invSave", () => {
     },
     enemy: {
       save: 3,
-      invulnerableSave: "Senf"
+      invulnerableSave: 'Senf'
     },
     hitProbability: {
       ballistic: 0.6666
@@ -539,12 +539,12 @@ test("Error Type invSave", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(TypeError);
-});
+    damageProbability(props)
+  }).toThrow(TypeError)
+})
 
 // test("Error Type attacks", () => {
 //   const props = {
@@ -572,7 +572,7 @@ test("Error Type invSave", () => {
 //   }).toThrow(TypeError);
 // });
 
-test("Error - Damage", () => {
+test('Error - Damage', () => {
   const props = {
     model: {
       ballistic: {
@@ -589,12 +589,12 @@ test("Error - Damage", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(RangeError);
-});
+    damageProbability(props)
+  }).toThrow(RangeError)
+})
 
 // test("Error FNP", () => {
 //   const props = {
@@ -671,7 +671,7 @@ test("Error - Damage", () => {
 //   }).toThrow(RangeError);
 // });
 
-test("Error Range Save", () => {
+test('Error Range Save', () => {
   const props = {
     model: {
       ballistic: {
@@ -688,12 +688,12 @@ test("Error Range Save", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   expect(() => {
-    damageProbability(props);
-  }).toThrow(RangeError);
-});
+    damageProbability(props)
+  }).toThrow(RangeError)
+})
 
 // test("Error Senf FNP", () => {
 //   const props = {
@@ -720,13 +720,13 @@ test("Error Range Save", () => {
 //   }).toThrow(TypeError);
 // });
 
-test("Error no value1", () => {
-  const props = {};
+test('Error no value1', () => {
+  const props = {}
 
   expect(() => {
-    damageProbability(props);
-  }).toThrowError(RangeError);
-});
+    damageProbability(props)
+  }).toThrowError(RangeError)
+})
 
 // test("attacks melee", () => {
 //   const props = {
@@ -848,7 +848,7 @@ test("Error no value1", () => {
 //   expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
 // });
 
-test("String Enemy ball", () => {
+test('String Enemy ball', () => {
   const props = {
     model: {
       ballistic: {
@@ -856,8 +856,8 @@ test("String Enemy ball", () => {
       }
     },
     enemy: {
-      save: "3",
-      saveModifier: "1"
+      save: '3',
+      saveModifier: '1'
     },
     hitProbability: {
       ballistic: 0.6666
@@ -865,16 +865,16 @@ test("String Enemy ball", () => {
     woundProbability: {
       ballistic: 0.333
     }
-  };
+  }
 
   const expected = {
     ballistic: 0.1111
-  };
+  }
 
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("String Enemy melee", () => {
+test('String Enemy melee', () => {
   const props = {
     model: {
       melee: {
@@ -882,9 +882,9 @@ test("String Enemy melee", () => {
       }
     },
     enemy: {
-      save: "3",
-      invulnerableSave: "2",
-      saveModifier: "1"
+      save: '3',
+      invulnerableSave: '2',
+      saveModifier: '1'
     },
     hitProbability: {
       melee: 0.6666
@@ -892,35 +892,35 @@ test("String Enemy melee", () => {
     woundProbability: {
       melee: 0.333
     }
-  };
+  }
 
   const expected = {
     melee: 0.1111
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+})
 
-test("only ballistic", () => {
+test('only ballistic', () => {
   const props = {
     model: {
       ballistic: {
-        strength: "4",
-        damage: "1",
-        attackPower: "0",
-        attack: "1"
+        strength: '4',
+        damage: '1',
+        attackPower: '0',
+        attack: '1'
       }
     },
     enemy: {
-      toughness: "4",
-      save: "4",
-      invulnerableSave: "0"
+      toughness: '4',
+      save: '4',
+      invulnerableSave: '0'
     },
     hitReroll: {
-      ballistic: "reroll-none"
+      ballistic: 'reroll-none'
     },
     woundReroll: {
-      ballistic: "reroll-none"
+      ballistic: 'reroll-none'
     },
     hitProbability: {
       ballistic: 0.5
@@ -928,15 +928,15 @@ test("only ballistic", () => {
     woundProbability: {
       ballistic: 0.25
     }
-  };
+  }
   const expected = {
     ballistic: 0.125
-  };
+  }
 
-  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic);
-});
+  expect(damageProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+})
 
-test("only melee", () => {
+test('only melee', () => {
   const props = {
     model: {
       melee: {
@@ -945,7 +945,7 @@ test("only melee", () => {
     },
     enemy: {
       save: 4,
-      invulnerableSave: "0"
+      invulnerableSave: '0'
     },
     hitProbability: {
       melee: 0.5
@@ -953,10 +953,10 @@ test("only melee", () => {
     woundProbability: {
       melee: 0.25
     }
-  };
+  }
   const expected = {
     melee: 0.125
-  };
+  }
 
-  expect(damageProbability(props).melee).toBeCloseTo(expected.melee);
-});
+  expect(damageProbability(props).melee).toBeCloseTo(expected.melee)
+})
