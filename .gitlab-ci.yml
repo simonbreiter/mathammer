@@ -27,7 +27,7 @@ test:js:
   script:
     - npm run test:codacy-coverage
 
-test:sonarcloud:
+anlysis:sonarcloud:
   stage: analysis
   image:
     name: sonarsource/sonar-scanner-cli:4.2
