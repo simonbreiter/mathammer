@@ -20,6 +20,9 @@ test:js:
   image: node:9
   dependencies:
     - build
+  artifacts:
+    paths:
+      - coverage
   script:
     - npm run test:codacy-coverage
 
