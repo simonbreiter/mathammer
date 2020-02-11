@@ -5,6 +5,7 @@ variables:
 stages:
   - build
   - test
+  - analysis
 
 build:
   stage: build
@@ -27,7 +28,7 @@ test:js:
     - npm run test:codacy-coverage
 
 test:sonarcloud:
-  stage: test
+  stage: analysis
   image:
     name: sonarsource/sonar-scanner-cli:4.2
     entrypoint: ['']
