@@ -15,6 +15,8 @@ build:
       - node_modules
   script:
     - npm install
+  only:
+    - merge_requests
 
 test:js:
   stage: test
@@ -26,8 +28,10 @@ test:js:
       - coverage
   script:
     - npm run test:codacy-coverage
+  only:
+    - merge_requests
 
-anlysis:sonarcloud:
+analysis:sonarcloud:
   stage: analysis
   image:
     name: sonarsource/sonar-scanner-cli:4.2
@@ -40,4 +44,3 @@ anlysis:sonarcloud:
     - sonar-scanner
   only:
     - merge_requests
-    - master

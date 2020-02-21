@@ -1,584 +1,560 @@
-/* eslint-env jest */
-import { woundProbability } from './woundProbability'
+// /* eslint-env jest */
+import { woundProbability } from './woundProbabilityNew'
 
 test('function exists', () => {
   expect(woundProbability).toBeDefined()
 })
 
-test('wound probability double toughness', () => {
+test('strength == toughness', () => {
   const props = {
     model: {
-      melee: {
-        strength: 8
-      },
-      ballistic: {
-        strength: 8
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-none',
-      ballistic: 'reroll-none'
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.555,
-    ballistic: 0.555
+    wounds: 5
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability higher than toughness', () => {
+test('strength > toughness', () => {
   const props = {
     model: {
-      melee: {
-        strength: 6
-      },
-      ballistic: {
-        strength: 5
-      }
+      strength: 5
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
+    },
     hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.444,
-    ballistic: 0.444
+    wounds: 6.666
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability with no reroll', () => {
+test('strength >= 2 * toughness', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 8
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-none',
-      ballistic: 'reroll-none'
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.3333
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.333,
-    ballistic: 0.1666
+    wounds: 8.333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability smaller than toughness', () => {
+test('strength < toughness', () => {
   const props = {
     model: {
-      melee: {
-        strength: 2
-      },
-      ballistic: {
-        strength: 3
-      }
+      strength: 3
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-none',
-      ballistic: 'reroll-none'
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.111,
-    ballistic: 0.2222
+    wounds: 3.3333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability with reroll-1', () => {
+test('strength * 2 <= toughness', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 2
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-1',
-      ballistic: 'reroll-all'
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.3888,
-    ballistic: 0.4995
+    wounds: 1.666
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability with reroll-1 and reroll-all and hit reroll-1 ', () => {
+// reroll
+
+test('strength == toughness, reroll all', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-1',
-      ballistic: 'reroll-all'
+    reroll: {
+      wound: 'reroll-all'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.7777,
-      ballistic: 0.7777
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.4537,
-    ballistic: 0.5833
+    wounds: 7.5
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound probability mod 1, -1 ', () => {
+test('strength == toughness, reroll one', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -1,
-      ballistic: 1
+    reroll: {
+      wound: 'reroll-one'
     },
-    woundReroll: {
-      melee: 'reroll-none',
-      ballistic: 'reroll-none'
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.222,
-    ballistic: 0.444
+    wounds: 5.8333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound modifier <2, >6 ', () => {
+// Modifier
+test('strength == toughness, wound +1', () => {
   const props = {
     model: {
-      melee: {
-        strength: 2
-      },
-      ballistic: {
-        strength: 8
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -1,
-      ballistic: 1
+    reroll: {
+      wound: 'reroll-none'
+    },
+    modifier: {
+      wound: 1
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0,
-    ballistic: 0.555
+    wounds: 6.666
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound modifier +1,-1 equal toughness reroll-1 ', () => {
+test('strength == toughness, wound -1', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -1,
-      ballistic: 1
+    reroll: {
+      wound: 'reroll-none'
     },
-    woundReroll: {
-      melee: 'reroll-1',
-      ballistic: 'reroll-1'
+    modifier: {
+      wound: -1
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.2592,
-    ballistic: 0.4074
+    wounds: 3.333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound modifier +1,-1 equal toughness reroll-all ', () => {
+test('strength == toughness, wound +3', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -1,
-      ballistic: 1
+    reroll: {
+      wound: 'reroll-none'
     },
-    woundReroll: {
-      melee: 'reroll-all',
-      ballistic: 'reroll-all'
+    modifier: {
+      wound: 3
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.333,
-    ballistic: 0.555
+    wounds: 8.3333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound modifier +4,-4 equal toughness reroll-all ', () => {
+test('strength == toughness, wound -3', () => {
   const props = {
     model: {
-      melee: {
-        strength: 4
-      },
-      ballistic: {
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -4,
-      ballistic: 4
+    reroll: {
+      wound: 'reroll-none'
     },
-    woundReroll: {
-      melee: 'reroll-all',
-      ballistic: 'reroll-all'
+    modifier: {
+      wound: -4
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0,
-    ballistic: 0.6111
+    wounds: 0
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('wound modifier <2 >6 ', () => {
+// reroll + wound modifier combined
+
+test('strength == toughness, reroll all , wound modifier +1', () => {
   const props = {
     model: {
-      melee: {
-        strength: 2
-      },
-      ballistic: {
-        strength: 8
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    woundModifier: {
-      melee: -1,
-      ballistic: 1
+    reroll: {
+      wound: 'reroll-all'
     },
-    woundReroll: {
-      melee: 'reroll-all',
-      ballistic: 'reroll-all'
+    modifier: {
+      wound: 1
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.666,
-      ballistic: 0.666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0,
-    ballistic: 0.64814
+    wounds: 8.333
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('only melee', () => {
+test('strength == toughness, reroll all, wound modifier -1', () => {
   const props = {
     model: {
-      melee: {
-        skill: 3,
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    hitReroll: {
-      melee: 'reroll-none'
+    reroll: {
+      wound: 'reroll-all'
     },
-    woundReroll: {
-      melee: 'reroll-none'
+    modifier: {
+      wound: -1
+    },
+    abilities: {
+      mortalWounds: 0
     },
     hitProbability: {
-      melee: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    melee: 0.333
+    wounds: 5
   }
 
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.wounds).toBeCloseTo(expected.wounds)
 })
 
-test('only ballistic', () => {
+// additional mortal wounds
+
+test('strength == toughness, reroll all, mortal wounds 6+', () => {
   const props = {
     model: {
-      ballistic: {
-        skill: 3,
-        strength: 4
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
-    hitReroll: {
-      ballistic: 'reroll-none'
+    reroll: {
+      wound: 'reroll-none'
     },
-    woundReroll: {
-      ballistic: 'reroll-none'
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 6
     },
     hitProbability: {
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    ballistic: 0.333
+    wounds: 5,
+    mortalWounds: 1.666
   }
 
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.mortalWounds).toBeCloseTo(expected.mortalWounds)
 })
 
-test('Error Strength < 0', () => {
+test('strength == toughness, reroll all, mortal wounds 6+, reroll-all', () => {
   const props = {
     model: {
-      melee: {
-        strength: 'Senf'
-      },
-      ballistic: {
-        strength: 8
-      }
+      strength: 4
     },
-    enemy: {
-      toughness: 4
-    }
-  }
-
-  expect(() => {
-    woundProbability(props)
-  }).toThrow(TypeError)
-})
-
-test('Error Strength < 0', () => {
-  const props = {
-    model: {
-      ballistic: {
-        strength: -4
-      }
+    weapon: {
+      strength: 0
     },
     enemy: {
       toughness: 4
     },
+    reroll: {
+      wound: 'reroll-all'
+    },
+    modifier: {
+      wound: 0
+    },
+    abilities: {
+      mortalWounds: 6
+    },
     hitProbability: {
-      ballistic: 0.6666
+      hits: 10
     }
   }
-  expect(() => {
-    woundProbability(props)
-  }).toThrow(RangeError)
+
+  const expected = {
+    wounds: 5,
+    mortalWounds: 2.5
+  }
+
+  const returnedWounds = woundProbability(props)
+
+  expect(returnedWounds.mortalWounds).toBeCloseTo(expected.mortalWounds)
 })
 
-test('Error no value1', () => {
-  const props = {}
-
-  expect(() => {
-    woundProbability(props)
-  }).toThrowError(RangeError)
-})
-
-test('wound probability smaller than toughness', () => {
+test('strength == toughness, reroll all, mortal wounds 6+, reroll-one', () => {
   const props = {
     model: {
-      melee: {
-        strength: '2'
-      },
-      ballistic: {
-        strength: '3'
-      }
+      strength: 4
+    },
+    weapon: {
+      strength: 0
     },
     enemy: {
-      toughness: '4'
+      toughness: 4
     },
-    woundReroll: {
-      melee: 'reroll-none',
-      ballistic: 'reroll-none'
+    reroll: {
+      wound: 'reroll-one'
     },
-    hitProbability: {
-      melee: 0.6666,
-      ballistic: 0.6666
-    }
-  }
-  const expected = {
-    melee: 0.111,
-    ballistic: 0.2222
-  }
-
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
-})
-
-test('only ballistic', () => {
-  const props = {
-    model: {
-      ballistic: {
-        skill: 3,
-        strength: '4'
-      }
+    modifier: {
+      wound: 0
     },
-    enemy: {
-      toughness: '4'
-    },
-    hitReroll: {
-      ballistic: 'reroll-none'
-    },
-    woundReroll: {
-      ballistic: 'reroll-none'
+    abilities: {
+      mortalWounds: 6
     },
     hitProbability: {
-      ballistic: 0.6666
+      hits: 10
     }
   }
+
   const expected = {
-    ballistic: 0.333
+    wounds: 5,
+    mortalWounds: 1.9444
   }
 
-  expect(woundProbability(props).ballistic).toBeCloseTo(expected.ballistic)
-})
+  const returnedWounds = woundProbability(props)
 
-test('only melee', () => {
-  const props = {
-    model: {
-      melee: {
-        skill: 3,
-        strength: '4'
-      }
-    },
-    enemy: {
-      toughness: '4'
-    },
-    hitReroll: {
-      melee: 'reroll-none'
-    },
-    woundReroll: {
-      melee: 'reroll-none'
-    },
-    hitProbability: {
-      melee: 0.6666
-    }
-  }
-  const expected = {
-    melee: 0.333
-  }
-
-  expect(woundProbability(props).melee).toBeCloseTo(expected.melee)
+  expect(returnedWounds.mortalWounds).toBeCloseTo(expected.mortalWounds)
 })
